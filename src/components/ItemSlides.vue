@@ -16,7 +16,9 @@ const props = defineProps({
   }
 });
 
-const imagePath = ref('../src/assets/img/');
+const getImageUrl = (item) => {
+  return new URL(`../assets/img/${item.image}`, import.meta.url).href;
+};
 
 const router = useRouter();
 
@@ -47,7 +49,7 @@ const { setStorage } = useStorage();
         @click="handleSelectItem(item)"
       >
         <img
-          :src="imagePath + item.image"
+          :src="getImageUrl(item)"
           width="128"
           height="128"
           class="rounded-lg"
