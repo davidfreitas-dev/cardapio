@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 
 import App from './App.vue';
 import router from './router';
+import { vue3Debounce } from 'vue-debounce';
 
 import './services/firebase-firestore';
 
@@ -16,5 +17,7 @@ app.config.globalProperties.$filters = {
 };
 
 app.use(router);
+
+app.directive('debounce', vue3Debounce({ lock: true }));
 
 app.mount('#app');

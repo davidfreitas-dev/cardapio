@@ -8,6 +8,11 @@ const router = createRouter({
       name: '',
       component: () => import('../pages/Home.vue')
     },
+    {
+      path: '/menu',
+      name: 'menu',
+      component: () => import('../pages/Menu.vue')
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     // always scroll to top
