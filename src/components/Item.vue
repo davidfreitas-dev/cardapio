@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
 
@@ -10,7 +9,9 @@ const props = defineProps({
   }
 });
 
-const imagePath = ref('../src/assets/img/');
+const getImageUrl = (item) => {
+  return new URL(`../assets/img/${item.image}`, import.meta.url).href;
+};
 
 const router = useRouter();
 
@@ -29,7 +30,7 @@ const { setStorage } = useStorage();
     @click="handleSelectItem"
   >
     <img
-      :src="imagePath + item.image"
+      :src="getImageUrl(item)"
       class="w-full h-auto rounded-lg"
       alt="Imagem de comida"
     >
