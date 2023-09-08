@@ -16,6 +16,10 @@ onMounted(() => {
   item.value = getStorage('product');
 });
 
+const getImageUrl = (item) => {
+  return new URL(`../assets/img/${item.image}`, import.meta.url).href;
+};
+
 watch(
   () => cart.value,
   () => {
@@ -44,7 +48,7 @@ const { setStorage, getStorage } = useStorage();
 <template>
   <div
     class="absolute top-0 left-0 w-full h-52 bg-cover bg-no-repeat bg-center"
-    :style="`background-image: url('./src/assets/img/${item.image}');`"
+    :style="`background-image: url('${getImageUrl(item)}');`"
   />
     
   <div class="flex flex-col gap-2 mt-56">

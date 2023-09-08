@@ -30,21 +30,23 @@ const handleMenu = (i) => {
 </script>
 
 <template>
-  <swiper
-    :slides-per-view="4.5"
-    :space-between="0"
-  >
-    <swiper-slide
-      v-for="(tab, index) in tabs"
-      :key="index"
+  <div class="sticky top-0 left-0 bg-white">
+    <swiper
+      :slides-per-view="4.5"
+      :space-between="0"
     >
-      <li
-        :class="{ 'font-bold text-font border-b-2 border-primary': tab.active }"
-        class="text-center cursor-pointer select-none transition-colors py-2"
-        @click="handleMenu(index)"
+      <swiper-slide
+        v-for="(tab, index) in tabs"
+        :key="index"
       >
-        {{ tab.name }}
-      </li>
-    </swiper-slide>
-  </swiper>
+        <li
+          :class="{ 'font-bold text-font border-b-2 border-primary': tab.active }"
+          class="text-center cursor-pointer select-none transition-colors py-2.5"
+          @click="handleMenu(index)"
+        >
+          {{ tab.name }}
+        </li>
+      </swiper-slide>
+    </swiper>
+  </div>
 </template>
