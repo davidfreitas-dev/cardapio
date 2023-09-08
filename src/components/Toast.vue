@@ -41,8 +41,8 @@ defineExpose({showToast});
       role="alert"
       class="toast"
       :class="{ 
-        'bg-primary': props.toastData.type === 'success', 
-        'bg-danger': props.toastData.type === 'error' 
+        'bg-accent text-primary': props.toastData.type === 'success', 
+        'bg-red-400 text-white': props.toastData.type === 'error' 
       }"
     >
       <div class="toast-content">
@@ -54,9 +54,9 @@ defineExpose({showToast});
   
 <style scoped>
 .toast {
-  @apply fixed top-10 -translate-x-1/2 left-1/2 flex items-center p-4 mb-4 w-full max-w-xs text-white rounded-lg shadow-md
+  @apply fixed top-5 -translate-x-1/2 left-1/2 flex items-center p-4 mb-4 w-[90%] rounded-lg shadow-md
 }
 .toast-content {
-  @apply ml-3 text-sm font-normal
+  @apply ml-3 font-normal text-sm
 }
 </style>
