@@ -15,6 +15,10 @@ const props = defineProps({
   }
 });
 
+const getImageUrl = (item) => {
+  return new URL(`../assets/img/${item.image}`, import.meta.url).href;
+};
+
 const router = useRouter();
 
 const handleSelectItem = () => {
@@ -29,7 +33,7 @@ const { setStorage } = useStorage();
 <template>
   <div class="flex justify-start items-center gap-3 h-32 border-b border-accent">
     <img
-      :src="`../src/assets/img/${item.image}`"
+      :src="getImageUrl(item)"
       alt="Imagem de comida"
       class="h-20 w-20 rounded-lg cursor-pointer"
       @click="handleSelectItem()"

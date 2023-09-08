@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'cart',
       component: () => import('../pages/Cart.vue')
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../pages/Profile.vue')
+    }
   ],
   scrollBehavior(to, from, savedPosition) {
     // always scroll to top
