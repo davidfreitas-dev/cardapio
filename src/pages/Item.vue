@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
 import Heading from '@/components/Heading.vue';
@@ -19,6 +19,16 @@ onMounted(() => {
 const getImageUrl = (item) => {
   return new URL(`../assets/img/${item.image}`, import.meta.url).href;
 };
+
+const totalPrice = computed(() => {
+  const additional = item.value.additional || [];
+  const totalItem = item.value.price || 0;
+  const totalAdditional = additional
+    .map(add => (add.selected ? add.price : 0) * 1)
+    .reduce((total, current) => total + current, 0);
+
+  return totalItem + totalAdditional;
+});
 
 watch(
   () => cart.value,
@@ -47,11 +57,11 @@ const { setStorage, getStorage } = useStorage();
 
 <template>
   <div
-    class="absolute top-0 left-0 w-full h-52 bg-cover bg-no-repeat bg-center"
+    class="absolute top-0 left-0 w-full h-60 bg-cover bg-no-repeat bg-center"
     :style="`background-image: url('${getImageUrl(item)}');`"
   />
     
-  <div class="flex flex-col gap-2 mt-56">
+  <div class="flex flex-col gap-2 mt-64">
     <Heading
       :text="item.name"
       size="lg"
@@ -75,29 +85,41 @@ const { setStorage, getStorage } = useStorage();
 
     <Heading
       text="Adicionais"
-      size="lg"
+      size="md"
     />
 
     <div class="flex flex-col justify-between items-start my-3">
-      <span class="w-full p-3.5 border border-accent rounded-t-xl">
-        <Checkbox text="Catupiry" />
-      </span>
-      <span class="w-full p-3.5 border-l border-b border-r border-accent">
-        <Checkbox text="Chedar" />
-      </span>
-      <span class="w-full p-3.5 border-l border-b border-r border-accent">
-        <Checkbox text="Pimenta" />
-      </span>
-      <span class="w-full p-3.5 border-l border-b border-r border-accent rounded-b-xl">
-        <Checkbox text="Cebola" />
+      <span
+        v-for="(additional, index) in item.additional"
+        :key="index"
+        class="flex justify-between items-center border-x first:border-t border-b border-accent first:rounded-t-xl last:rounded-b-xl w-full p-3.5"
+      >
+        <Checkbox
+          v-model="additional.selected"
+          :text="additional.name"
+        />
+
+        <strong>
+          {{ $filters.currencyBRL(additional.price) }}
+        </strong>
       </span>
     </div>
   </div>
 
-  <div class="fixed left-0 bottom-0 z-20 w-full h-[70px] bg-white">
-    <div class="w-11/12 mx-auto">
+  <div class="box-shadow fixed left-0 bottom-0 z-20 w-full h-[80px] bg-white">
+    <div class="flex w-11/12 mx-auto py-2.5">
+      <div class="flex flex-col w-[60%]">
+        <Text
+          text="Total"
+          color="secondary"
+        />
+        <strong class="text-xl text-primary">
+          {{ $filters.currencyBRL(totalPrice) }}
+        </strong>
+      </div>
+
       <Button
-        text="Adicionar Item"
+        text="Adicionar"
         @click="addToCart"
       />
     </div>

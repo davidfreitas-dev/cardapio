@@ -28,8 +28,8 @@ watch(() => route.name, () => {
 </script>
 
 <template>
-  <nav class="fixed left-0 bottom-0 z-10 w-full h-16 shadow-inner bg-white">
-    <ul class="flex justify-between items-center w-[90%] mx-auto px-1 text-xs text-secondary pt-2">
+  <nav class="fixed left-0 bottom-0 z-10 w-full h-16 box-shadow bg-white">
+    <ul class="flex justify-between items-center w-[90%] mx-auto text-xs text-secondary p-1">
       <li
         v-for="(item, index) in menu"
         :key="index"
