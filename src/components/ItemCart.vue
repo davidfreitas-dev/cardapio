@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import { useStorage } from '@/use/useStorage';
@@ -19,6 +20,19 @@ const getImageUrl = (item) => {
   return new URL(`../assets/img/${item.image}`, import.meta.url).href;
 };
 
+const additionalSelected = computed(() => {
+  return props.item.additional.filter((add) => add.selected);
+});
+
+const totalItemPrice = computed(() => {
+  const totalItem = props.item.price || 0;
+  const totalAdditional = additionalSelected.value
+    .map(add => add.price * 1)
+    .reduce((total, current) => total + current, 0);
+
+  return totalItem + totalAdditional;
+});
+
 const router = useRouter();
 
 const handleSelectItem = () => {
@@ -31,7 +45,7 @@ const { setStorage } = useStorage();
 </script>
 
 <template>
-  <div class="flex justify-start items-center gap-3 h-32 border-b border-accent">
+  <div class="flex justify-start items-start gap-3 border-b border-accent py-5">
     <img
       :src="getImageUrl(item)"
       alt="Imagem de comida"
@@ -39,8 +53,8 @@ const { setStorage } = useStorage();
       @click="handleSelectItem()"
     >
 
-    <div class="flex flex-col justify-between h-20 w-full">
-      <div class="flex justify-between items-start w-full">
+    <div class="flex flex-col justify-between min-h-[80px] w-full">
+      <div class="flex justify-between items-center w-full">
         <Heading
           :text="item.name"
           size="sm"
@@ -55,14 +69,26 @@ const { setStorage } = useStorage();
         </span>
       </div>
 
+      <template
+        v-for="(additional, index) in item.additional"
+        :key="index"
+      >
+        <Text
+          v-if="additional.selected"
+          :text="`+ ${additional.name}`"
+          color="secondary"
+        />
+      </template>
+
       <Text
-        :text="`Quantidade: ${item.quantity}x`"
+        v-if="!additionalSelected.length"
+        :text="item.description"
         color="secondary"
       />
 
       <div class="flex justify-between items-center w-full">
         <strong class="font-bold text-lg text-primary leading-5">
-          {{ $filters.currencyBRL(item.price) }}
+          {{ $filters.currencyBRL(totalItemPrice) }}
         </strong>
 
         <QtyControl v-model="item.quantity" />

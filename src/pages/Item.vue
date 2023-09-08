@@ -20,14 +20,19 @@ const getImageUrl = (item) => {
   return new URL(`../assets/img/${item.image}`, import.meta.url).href;
 };
 
-const totalPrice = computed(() => {
+const additionalSelected = computed(() => {
   const additional = item.value.additional || [];
-  const totalItem = item.value.price || 0;
-  const totalAdditional = additional
-    .map(add => (add.selected ? add.price : 0) * 1)
-    .reduce((total, current) => total + current, 0);
+  return additional.filter((add) => add.selected);
+});
 
-  return totalItem + totalAdditional;
+const totalPrice = computed(() => {
+  const totalItem = item.value.price || 0;
+  const quantityItem = item.value.quantity || 0;
+  const totalAdditional = additionalSelected.value
+    .map(add => add.price * 1)
+    .reduce((total, current) => total + current, 0);
+    
+  return (totalItem + totalAdditional) * quantityItem;
 });
 
 watch(
@@ -45,6 +50,7 @@ const addToCart = () => {
 
   if (index >= 0) {
     cart.value[index].quantity += item.value.quantity;
+    cart.value[index].additional = item.value.additional;
   } else {
     cart.value.push(item.value);
   }

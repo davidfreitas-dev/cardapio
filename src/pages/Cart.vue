@@ -30,7 +30,9 @@ const tax = computed(() => {
 
 const subtotalItemsPrice = computed(() => {
   return items.value
-    .map(item => item.quantity * item.price)
+    .map(item => item.quantity * (item.price + item.additional
+      .map(add => (add.selected ? add.price : 0) * 1)
+      .reduce((total, current) => total + current, 0)))
     .reduce((total, current) => total + current, 0);
 });
 
