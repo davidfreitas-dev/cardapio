@@ -29,7 +29,7 @@ watch(() => route.name, () => {
 
 <template>
   <nav class="fixed left-0 bottom-0 z-10 w-full h-16 box-shadow bg-white">
-    <ul class="flex justify-between items-center w-[90%] mx-auto text-xs text-secondary p-1">
+    <ul class="flex justify-between items-center w-[90%] mx-auto text-xs text-secondary py-1.5">
       <li
         v-for="(item, index) in menu"
         :key="index"
