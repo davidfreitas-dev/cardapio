@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
+import Item from '@/components/Item.vue';
 import { useRouter } from 'vue-router';
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import { useStorage } from '@/use/useStorage';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
 const props = defineProps({
@@ -16,15 +16,10 @@ const props = defineProps({
   }
 });
 
-const getImageUrl = (item) => {
-  return new URL(`../assets/img/${item.image}`, import.meta.url).href;
-};
-
 const router = useRouter();
 
 const handleSelectItem = (item) => {
   setStorage('product', item);
-
   router.push('/item');
 };
 
@@ -36,7 +31,6 @@ const { setStorage } = useStorage();
     {{ title }}
   </div>
 
-<<<<<<< Updated upstream
   <swiper
     :slides-per-view="2.5"
     :space-between="15"
@@ -44,39 +38,11 @@ const { setStorage } = useStorage();
     <swiper-slide
       v-for="(item, index) in items"
       :key="index"
-=======
-  <div class="swiper-container w-[calc(100%+11%)] -ml-[5.5%] -mr-[5.5%]">
-    <swiper
-      :slides-per-view="2.5"
-      :space-between="15"
->>>>>>> Stashed changes
     >
-      <div
-        class="flex flex-col cursor-pointer"
+      <Item
+        :item="item"
         @click="handleSelectItem(item)"
-      >
-<<<<<<< Updated upstream
-        <img
-          :src="getImageUrl(item)"
-          width="128"
-          height="128"
-          class="rounded-lg"
-          alt="Imagem de comida"
-=======
-        <div
-          class="swiper-content flex flex-col justify-between items-center gap-2 cursor-pointer"
-          @click="handleSelectItem(item)"
->>>>>>> Stashed changes
-        >
-
-        <span class="font-semibold text-sm text-font truncate mt-2">
-          {{ item.name }}
-        </span>
-
-        <strong class="font-bold text-sm text-primary">
-          {{ $filters.currencyBRL(item.price) }}
-        </strong>
-      </div>
+      />
     </swiper-slide>
   </swiper>
 </template>
