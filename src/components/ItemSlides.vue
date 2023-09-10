@@ -31,18 +31,20 @@ const { setStorage } = useStorage();
     {{ title }}
   </div>
 
-  <swiper
-    :slides-per-view="2.5"
-    :space-between="15"
-  >
-    <swiper-slide
-      v-for="(item, index) in items"
-      :key="index"
+  <div class="swiper-container">
+    <swiper
+      :slides-per-view="2.5"
+      :space-between="15"
     >
-      <Item
-        :item="item"
-        @click="handleSelectItem(item)"
-      />
-    </swiper-slide>
-  </swiper>
+      <swiper-slide
+        v-for="(item, index) in items"
+        :key="index"
+      >
+        <Item
+          :item="item"
+          @click="handleSelectItem(item)"
+        />
+      </swiper-slide>
+    </swiper>
+  </div>
 </template>

@@ -26,21 +26,23 @@ const { setStorage } = useStorage();
 
 <template>
   <div
-    class="flex flex-col cursor-pointer"
+    class="item-container flex flex-col justify-between gap-2 cursor-pointer"
     @click="handleSelectItem"
   >
     <img
       :src="getImageUrl(item)"
-      class="w-full h-auto rounded-lg"
       alt="Imagem de comida"
+      class="item-img w-full h-auto rounded-lg"
     >
 
-    <span class="font-semibold text-base text-font truncate mt-2">
-      {{ item.name }}
-    </span>
+    <div class="item-content flex flex-col">
+      <span class="item-desc font-semibold text-base text-font truncate">
+        {{ item.name }}
+      </span>
 
-    <strong class="font-bold text-base text-primary">
-      {{ $filters.currencyBRL(item.price) }}
-    </strong>
+      <strong class="item-price font-bold text-base text-primary">
+        {{ $filters.currencyBRL(item.price) }}
+      </strong>
+    </div>
   </div>
 </template>
