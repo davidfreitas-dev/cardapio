@@ -30,7 +30,7 @@ const handleMenu = (i) => {
 </script>
 
 <template>
-  <div class="swiper-container sticky top-0 left-0 w-[calc(100%+5.5%)] bg-white">
+  <div class="swiper-container sticky top-0 left-0 bg-white">
     <swiper
       :slides-per-view="4.5"
       :space-between="0"

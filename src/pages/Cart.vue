@@ -127,12 +127,5 @@ const { setStorage, getStorage } = useStorage();
       text="Você ainda não adicionou nenhum item"
       size="sm"
     />
-
-    <img
-      src="@/assets/empty-cart.svg"
-      alt="Imagem de carrinho vazio"
-      width="250"
-      height="250"
-    >
   </div>
 </template>

@@ -17,13 +17,6 @@ import Text from '@/components/Text.vue';
         text="Você ainda não fez nenhum pedido"
         size="sm"
       />
-
-      <img
-        src="@/assets/empty-cart.svg"
-        alt="Imagem de carrinho vazio"
-        width="250"
-        height="250"
-      >
     </div>
   </div>
 </template>
