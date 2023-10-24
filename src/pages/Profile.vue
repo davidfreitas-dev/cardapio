@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
 import { useToast } from '@/use/useToast';
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import TextInput from '@/components/TextInput.vue';
 import Button from '@/components/Button.vue';
 import Toast from '@/components/Toast.vue';
@@ -70,14 +70,14 @@ const { toast, toastData, handleToast } = useToast();
 </script>
 
 <template>
-  <Heading
+  <Header
     text="Perfil"
     color="primary"
     size="lg"
   />
 
   <div class="flex flex-col gap-5 my-5">
-    <Heading
+    <Header
       text="Meus dados"
       size="sm"
     />
@@ -100,7 +100,7 @@ const { toast, toastData, handleToast } = useToast();
       text="Telefone"
     />
 
-    <Heading
+    <Header
       text="Endereço"
       size="sm"
     />

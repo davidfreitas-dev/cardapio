@@ -3,29 +3,33 @@ import { ref, watch } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
-const emit = defineEmits(['onHandleTabs']);
-
 const props = defineProps({
-  categories: {
+  tabs: {
     type: Array,
-    default: () => []
+    default: () => [],
+    required: true
   }
 });
 
-const tabs = ref([]);
+const newTabs = ref([]);
 
-watch(() => props.categories, (newCategories) => {
-  tabs.value = newCategories;
-});
+watch(
+  () => props.tabs, 
+  () => {
+    newTabs.value = props.tabs;
+  }
+);
 
-const handleMenu = (i) => {
-  tabs.value.forEach(item => {
+const emit = defineEmits(['onHandleTabs']);
+
+const handleSelectTab = (i) => {
+  newTabs.value.forEach(item => {
     item.active = false;
   });
 
-  tabs.value[i].active = true;
+  newTabs.value[i].active = true;
 
-  emit('onHandleTabs', tabs.value[i].name);
+  emit('onHandleTabs', newTabs.value[i].name);
 };
 </script>
 
@@ -36,13 +40,13 @@ const handleMenu = (i) => {
       :space-between="0"
     >
       <swiper-slide
-        v-for="(tab, index) in tabs"
+        v-for="(tab, index) in newTabs"
         :key="index"
       >
         <div
           class="swiper-content text-center select-none cursor-pointer transition-colors min-w-fit py-2.5"
           :class="{ 'font-bold text-font border-b-2 border-primary': tab.active }"
-          @click="handleMenu(index)"
+          @click="handleSelectTab(index)"
         >
           {{ tab.name }}
         </div>

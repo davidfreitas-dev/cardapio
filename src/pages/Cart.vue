@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, computed, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import Address from '@/components/Address.vue';
 import Text from '@/components/Text.vue';
 import Button from '@/components/Button.vue';
@@ -53,7 +53,7 @@ const { setStorage, getStorage } = useStorage();
 
 <template>
   <div class="flex justify-between items-center">
-    <Heading
+    <Header
       text="Carrinho"
       color="primary"
       size="lg"
@@ -65,7 +65,7 @@ const { setStorage, getStorage } = useStorage();
   <div v-if="items.length">
     <Address :delivery="delivery" />
   
-    <Heading :text="`Itens (${items.length})`" />
+    <Header :text="`Itens (${items.length})`" />
 
     <div class="flex flex-col mb-5">
       <ItemCart
@@ -123,7 +123,7 @@ const { setStorage, getStorage } = useStorage();
     v-else
     class="flex flex-col items-center text-center w-full h-screen p-8 mt-5"
   >
-    <Heading
+    <Header
       text="Você ainda não adicionou nenhum item"
       size="sm"
     />

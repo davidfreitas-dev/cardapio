@@ -3,15 +3,37 @@ import { ref, watch, onMounted } from 'vue';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/services/firebase-firestore';
 import { useStorage } from '@/use/useStorage';
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import TextInput from '@/components/TextInput.vue';
 import Tabs from '@/components/Tabs.vue';
 import Item from '@/components/Item.vue';
 import ItemSkeleton from '@/components/ItemSkeleton.vue';
 
 const isLoading = ref(true);
-
+const categoriesTabs = ref([]);
 const products = ref([]);
+
+const getCategoriesTabs = () => {
+  const categories = new Set();
+
+  products.value.forEach(product => {
+    categories.add(product.category);
+  });
+
+  const uniqueCategories = Array.from(categories).map(category => {
+    return {
+      name: category,
+      active: false, 
+    };
+  });
+
+  categoriesTabs.value.push({
+    name: 'Todos',
+    active: true
+  });
+
+  categoriesTabs.value = categoriesTabs.value.concat(uniqueCategories);
+};
 
 const loadData = async () => {
   const querySnapshot = await getDocs(collection(db, 'products'));
@@ -29,33 +51,12 @@ const loadData = async () => {
 
   isLoading.value = false;
 
-  handleCategories();
+  getCategoriesTabs();
 };
 
 onMounted(() => {
   loadData();
 });
-
-const categories = ref([
-  { name: 'Todos', active: true }
-]);
-
-const handleCategories = () => {
-  const arrayCategories = new Set();
-
-  products.value.forEach(product => {
-    arrayCategories.add(product.category);
-  });
-
-  const uniqueCategories = Array.from(arrayCategories).map(category => {
-    return {
-      name: category,
-      active: false, 
-    };
-  });
-
-  categories.value = categories.value.concat(uniqueCategories);
-};
 
 const search = ref('');
 
@@ -91,7 +92,7 @@ const { setStorage, getStorage } = useStorage();
 </script>
 
 <template>
-  <Heading
+  <Header
     text="Cardápio"
     color="primary"
     size="lg"
@@ -106,7 +107,7 @@ const { setStorage, getStorage } = useStorage();
   />
 
   <Tabs
-    :categories="categories"
+    :tabs="categoriesTabs"
     @on-handle-tabs="handleFilter"
   />
 

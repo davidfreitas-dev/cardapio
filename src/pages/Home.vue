@@ -3,8 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/services/firebase-firestore';
 import { useStorage } from '@/use/useStorage';
-import Heading from '@/components/Heading.vue';
-import TextInput from '@/components/TextInput.vue';
+import Header from '@/components/Header.vue';
 import Banner from '@/components/Banner.vue';
 import ItemSlides from '@/components/ItemSlides.vue';
 
@@ -63,16 +62,7 @@ const { setStorage, getStorage } = useStorage();
 </script>
 
 <template>
-  <Heading
-    text="Bem-vindo 👋"
-    size="lg"
-  />
-
-  <TextInput
-    type="search"
-    text="O que você esta procurando?"
-    class="border my-5"
-  />
+  <Header text="Bem-vindo 👋" />
 
   <Banner />
 

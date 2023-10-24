@@ -1,11 +1,11 @@
 <script setup>
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
 </script>
 
 <template>
   <div class="flex flex-col gap-3">
-    <Heading
+    <Header
       text="Meus Pedidos"
       color="primary"
       size="lg"
@@ -13,7 +13,7 @@ import Text from '@/components/Text.vue';
     
     
     <div class="flex flex-col items-center text-center w-full h-screen p-8 mt-5">
-      <Heading
+      <Header
         text="Você ainda não fez nenhum pedido"
         size="sm"
       />

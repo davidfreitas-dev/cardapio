@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import { useStorage } from '@/use/useStorage';
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
 import QtyControl from '@/components/QtyControl.vue';
 
@@ -55,7 +55,7 @@ const { setStorage } = useStorage();
 
     <div class="flex flex-col justify-between min-h-[80px] w-full">
       <div class="flex justify-between items-center w-full">
-        <Heading
+        <Header
           :text="item.name"
           size="sm"
           class="leading-5 line-clamp-2"

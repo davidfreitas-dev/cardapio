@@ -2,7 +2,7 @@
 import { ref, watch, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
 import Button from '@/components/Button.vue';
 import QtyControl from '@/components/QtyControl.vue';
@@ -68,7 +68,7 @@ const { setStorage, getStorage } = useStorage();
   />
     
   <div class="flex flex-col gap-2 mt-64">
-    <Heading
+    <Header
       :text="item.name"
       size="lg"
     />
@@ -89,7 +89,7 @@ const { setStorage, getStorage } = useStorage();
 
     <span class="border-b border-accent my-3" />
 
-    <Heading
+    <Header
       text="Adicionais"
       size="md"
     />

@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
 import Button from '@/components/Button.vue';
 
@@ -37,7 +37,7 @@ const { getStorage } = useStorage();
 <template>
   <div class="relative flex w-full rounded-2xl p-6 my-7 bg-primary">
     <div class="flex flex-col gap-2 justify-between items-start">
-      <Heading
+      <Header
         size="sm"
         color="light"
         :text="`${delivery} em`"

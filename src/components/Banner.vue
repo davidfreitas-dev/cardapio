@@ -1,5 +1,5 @@
 <script setup>
-import Heading from '@/components/Heading.vue';
+import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
 import Button from '@/components/Button.vue';
 </script>
@@ -7,7 +7,7 @@ import Button from '@/components/Button.vue';
 <template>
   <div class="flex w-full h-40 p-5 rounded-2xl my-5 bg-accent">
     <div class="flex flex-col justify-evenly items-start w-3/5">
-      <Heading
+      <Header
         text="Pizza Familiar"
         class="leading-3"
       />
