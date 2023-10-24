@@ -65,7 +65,9 @@ const { setStorage, getStorage } = useStorage();
   <div v-if="items.length">
     <Address :delivery="delivery" />
   
-    <Header :text="`Itens (${items.length})`" />
+    <h2 class="font-semibold font-sans text-xl">
+      Itens ({{ items.length }})
+    </h2>
 
     <div class="flex flex-col mb-5">
       <ItemCart
@@ -123,9 +125,8 @@ const { setStorage, getStorage } = useStorage();
     v-else
     class="flex flex-col items-center text-center w-full h-screen p-8 mt-5"
   >
-    <Header
-      text="Você ainda não adicionou nenhum item"
-      size="sm"
-    />
+    <span class="font-semibold font-sans text-lg">
+      Você ainda não adicionou nenhum item
+    </span>
   </div>
 </template>

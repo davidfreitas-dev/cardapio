@@ -1,6 +1,5 @@
 <script setup>
 import Header from '@/components/Header.vue';
-import Text from '@/components/Text.vue';
 </script>
 
 <template>
@@ -13,10 +12,9 @@ import Text from '@/components/Text.vue';
     
     
     <div class="flex flex-col items-center text-center w-full h-screen p-8 mt-5">
-      <Header
-        text="Você ainda não fez nenhum pedido"
-        size="sm"
-      />
+      <span class="font-semibold font-sans text-lg">
+        Você ainda não fez nenhum pedido
+      </span>
     </div>
   </div>
 </template>
