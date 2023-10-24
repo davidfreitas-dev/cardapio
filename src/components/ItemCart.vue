@@ -55,11 +55,9 @@ const { setStorage } = useStorage();
 
     <div class="flex flex-col justify-between min-h-[80px] w-full">
       <div class="flex justify-between items-center w-full">
-        <Header
-          :text="item.name"
-          size="sm"
-          class="leading-5 line-clamp-2"
-        />
+        <h1 class="font-semibold font-sans text-lg">
+          {{ item.name }}
+        </h1>
 
         <span
           class="w-5 ml-3"
