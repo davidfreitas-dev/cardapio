@@ -37,15 +37,15 @@ const handleSelectTab = (i) => {
   <div class="swiper-container sticky top-0 left-0 bg-white">
     <swiper
       :slides-per-view="4.5"
-      :space-between="0"
+      :space-between="100"
     >
       <swiper-slide
         v-for="(tab, index) in newTabs"
         :key="index"
       >
         <div
-          class="swiper-content text-center select-none cursor-pointer transition-colors min-w-fit py-2.5"
-          :class="{ 'font-bold text-font border-b-2 border-primary': tab.active }"
+          class="swiper-content w-24 text-primary text-center select-none cursor-pointer transition-colors rounded-md bg-primary bg-opacity-20 px-2 py-1"
+          :class="{ 'font-bold text-white bg-primary bg-opacity-100': tab.active }"
           @click="handleSelectTab(index)"
         >
           {{ tab.name }}
