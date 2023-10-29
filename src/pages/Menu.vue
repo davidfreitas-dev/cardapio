@@ -108,7 +108,7 @@ const { setStorage, getStorage } = useStorage();
 
   <Tabs
     :tabs="categoriesTabs"
-    @on-handle-tabs="handleFilter"
+    @on-click-tabs="handleFilter"
   />
 
   <ItemSkeleton v-if="isLoading" />
