@@ -11,12 +11,12 @@ const props = defineProps({
     type: String, 
     default: '' 
   },
-  text: { 
+  placeholder: { 
     type: String, 
     default: '' 
   },
   modelValue: { 
-    type: [String, Number], 
+    type: [ String, Number ], 
     default: null 
   }
 });
@@ -36,7 +36,7 @@ const updateValue = (event) => {
     <input
       :type="type"
       :value="modelValue"
-      :placeholder="text"
+      :placeholder="placeholder"
       :disabled="disabled"
       @input="updateValue"
       @keyup.enter="$emit('onKeyupEnter')"

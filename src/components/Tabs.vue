@@ -127,7 +127,7 @@ const dragStop = () => {
 
 .wrapper .tabs-container {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   list-style: none;
   overflow-x: hidden;
   scroll-behavior: smooth;
@@ -147,10 +147,12 @@ const dragStop = () => {
   border-radius: 30px;
   border: 1px solid #eaeaea;
   user-select: none;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 .tabs-container .tab:hover{
-  background: #efedfb;
+  background: #eaeaea;
 }
 
 .tabs-container .tab:first-child{

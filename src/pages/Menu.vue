@@ -1,38 +1,30 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/services/firebase-firestore';
-import { useStorage } from '@/use/useStorage';
+import { useProductsStore } from '@/stores/products';
 import Header from '@/components/Header.vue';
-import TextInput from '@/components/TextInput.vue';
+import Input from '@/components/Input.vue';
 import Tabs from '@/components/Tabs.vue';
 import Item from '@/components/Item.vue';
-import ItemSkeleton from '@/components/ItemSkeleton.vue';
+import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
 
-const products = ref([]);
+const productsStore = useProductsStore();
 
 const isLoading = ref(true);
 
-const getProducts = async () => {
-  const querySnapshot = await getDocs(collection(db, 'products'));
-
-  querySnapshot.forEach(doc => {
-    const product = {
-      ...{ id: doc.id },
-      ...doc.data()
-    };
-
-    products.value.push(product);
-  });
-
-  setStorage('products', products.value);
-
+onMounted(async () => {
+  await productsStore.getProducts();
+  
   isLoading.value = false;
-};
-
-onMounted(() => {
-  getProducts();
 });
+
+const products = ref([]);
+
+watch(
+  productsStore.products, 
+  (newProducts) => {
+    products.value = newProducts;
+  }
+);
 
 const search = ref('');
 
@@ -43,7 +35,7 @@ watch(search, (newSearch) => {
 });
 
 const handleSearch = () => {
-  const backupProducts = getStorage('products');
+  const backupProducts = productsStore.products;
 
   if (!search.value) {
     products.value = backupProducts;
@@ -54,7 +46,7 @@ const handleSearch = () => {
 };
 
 const handleFilter = (param) => {  
-  const backupProducts = getStorage('products');
+  const backupProducts = productsStore.products;
 
   if (param === 'Todos') {
     products.value = backupProducts;
@@ -63,31 +55,28 @@ const handleFilter = (param) => {
 
   products.value = backupProducts.filter((product => product.idcategory === param));
 };
-
-const { setStorage, getStorage } = useStorage();
 </script>
 
 <template>
   <Header
     text="Cardápio"
-    color="primary"
     size="lg"
   />
 
-  <TextInput
+  <Input
     v-model="search"
     v-debounce:500ms="handleSearch"
     type="search"
-    text="O que você esta procurando?"
     class="border my-5"
+    placeholder="O que você esta procurando?"
   />
 
   <Tabs @on-click-tabs="handleFilter" />
 
-  <ItemSkeleton v-if="isLoading" />
+  <ItemsSkeleton v-if="isLoading" />
 
   <div
-    v-else
+    v-if="!isLoading && products.length"
     class="grid grid-cols-2 gap-4 my-5 mx-[1px]"
   >
     <Item

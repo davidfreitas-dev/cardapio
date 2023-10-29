@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
 import { useToast } from '@/use/useToast';
 import Header from '@/components/Header.vue';
-import TextInput from '@/components/TextInput.vue';
+import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
 import Toast from '@/components/Toast.vue';
 
@@ -82,75 +82,75 @@ const { toast, toastData, handleToast } = useToast();
       size="sm"
     />
 
-    <TextInput
+    <Input
       v-model="user.firstName"
       type="text"
-      text="Nome"
+      placeholder="Nome"
     />
 
-    <TextInput
+    <Input
       v-model="user.lastName"
       type="text"
-      text="Sobrenome"
+      placeholder="Sobrenome"
     />
 
-    <TextInput
+    <Input
       v-model="user.phone"
       type="text"
-      text="Telefone"
+      placeholder="Telefone"
     />
 
     <Header
-      text="Endereço"
+      placeholder="Endereço"
       size="sm"
     />
 
-    <TextInput
+    <Input
       v-model="address.cep"
       v-debounce:700ms="getByCEP"
       type="tel"
-      text="CEP"
+      placeholder="CEP"
     />
 
-    <TextInput
+    <Input
       v-model="address.logradouro"
       type="text"
-      text="Endereço"
+      placeholder="Endereço"
       :disabled="!address.cep"
     />
 
-    <TextInput
+    <Input
       v-model="address.numero"
       type="text"
-      text="Número"
+      placeholder="Número"
       :disabled="!address.cep"
     />
 
-    <TextInput
+    <Input
       v-model="address.complemento"
       type="text"
-      text="Complemento"
+      placeholder="Complemento"
       :disabled="!address.cep"
     />
 
-    <TextInput
+    <Input
       v-model="address.bairro"
       type="text"
-      text="Bairro"
+      placeholder="Bairro"
       :disabled="!address.cep"
     />
 
-    <TextInput
+    <Input
       v-model="address.localidade"
       type="text"
-      text="Cidade"
+      placeholder="Cidade"
       :disabled="true"
     />
 
-    <TextInput
+    <Input
       v-model="address.uf"
       type="text"
-      text="Estado"
+      placeholder="Estado"
       :disabled="true"
     />
 
