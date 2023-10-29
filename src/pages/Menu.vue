@@ -9,33 +9,11 @@ import Tabs from '@/components/Tabs.vue';
 import Item from '@/components/Item.vue';
 import ItemSkeleton from '@/components/ItemSkeleton.vue';
 
-const isLoading = ref(true);
-const categoriesTabs = ref([]);
 const products = ref([]);
 
-const getCategoriesTabs = () => {
-  const categories = new Set();
+const isLoading = ref(true);
 
-  products.value.forEach(product => {
-    categories.add(product.category);
-  });
-
-  const uniqueCategories = Array.from(categories).map(category => {
-    return {
-      name: category,
-      active: false, 
-    };
-  });
-
-  categoriesTabs.value.push({
-    name: 'Todos',
-    active: true
-  });
-
-  categoriesTabs.value = categoriesTabs.value.concat(uniqueCategories);
-};
-
-const loadData = async () => {
+const getProducts = async () => {
   const querySnapshot = await getDocs(collection(db, 'products'));
 
   querySnapshot.forEach(doc => {
@@ -50,12 +28,10 @@ const loadData = async () => {
   setStorage('products', products.value);
 
   isLoading.value = false;
-
-  getCategoriesTabs();
 };
 
 onMounted(() => {
-  loadData();
+  getProducts();
 });
 
 const search = ref('');
@@ -85,7 +61,7 @@ const handleFilter = (param) => {
     return;
   }
 
-  products.value = backupProducts.filter((product => product.category === param));
+  products.value = backupProducts.filter((product => product.idcategory === param));
 };
 
 const { setStorage, getStorage } = useStorage();
@@ -106,10 +82,7 @@ const { setStorage, getStorage } = useStorage();
     class="border my-5"
   />
 
-  <Tabs
-    :tabs="categoriesTabs"
-    @on-click-tabs="handleFilter"
-  />
+  <Tabs @on-click-tabs="handleFilter" />
 
   <ItemSkeleton v-if="isLoading" />
 

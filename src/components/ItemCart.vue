@@ -17,7 +17,7 @@ const props = defineProps({
 });
 
 const getImageUrl = (item) => {
-  return new URL(`../assets/img/${item.image}`, import.meta.url).href;
+  return new URL(`../assets/img/products/${item.image}`, import.meta.url).href;
 };
 
 const additionalSelected = computed(() => {

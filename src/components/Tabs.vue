@@ -1,38 +1,47 @@
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '@/services/firebase-firestore';
 
-const props = defineProps({
-  tabs: {
-    type: Array,
-    default: () => [],
-    required: true
-  }
-});
+const tabs = ref([]);
 
-const newTabs = ref([]);
+const isLoading = ref(true);
 
-watch(
-  () => props.tabs, 
-  () => {
-    newTabs.value = props.tabs;
-  }
-);
+const getCategories = async () => {
+  const querySnapshot = await getDocs(collection(db, 'categories'));
+
+  querySnapshot.forEach(doc => {
+    const category = {
+      ...{ id: doc.id },
+      ...doc.data()
+    };
+
+    tabs.value.push(category);
+  });
+
+  isLoading.value = false;
+};
 
 const tabsContainer = ref(null);
 
-onMounted(() => {
+const setDragListeners = () => {
   tabsContainer.value = document.querySelector('.tabs-container');
   tabsContainer.value.addEventListener('mousedown', setDrag);
   tabsContainer.value.addEventListener('touchstart', setDrag);
   tabsContainer.value.addEventListener('mousemove', dragging);
   tabsContainer.value.addEventListener('touchmove', dragging);
   document.addEventListener('mouseup', dragStop);
-  document.addEventListener('touchend', dragStop);
+  document.addEventListener('touchend', dragStop);  
+};
+
+onMounted(() => {
+  getCategories();
+  setDragListeners();
 });
 
 const centerActiveTab = (activeTab) => {
   const containerWidth = tabsContainer.value.clientWidth;
-  const tab = document.getElementById(activeTab.name);
+  const tab = document.getElementById(activeTab.id);
   const tabWidth = tab.clientWidth;
   const tabLeft = tab.offsetLeft;
   const scrollLeft = tabLeft - containerWidth / 2 + tabWidth / 2;
@@ -46,9 +55,9 @@ const centerActiveTab = (activeTab) => {
 const emit = defineEmits(['onClickTabs']);
 
 const clickTab = (i) => {
-  const tab = newTabs.value[i];
+  const tab = tabs.value[i];
 
-  newTabs.value.forEach(item => {
+  tabs.value.forEach(item => {
     item.active = false;
   });
 
@@ -56,7 +65,7 @@ const clickTab = (i) => {
 
   centerActiveTab(tab);
 
-  emit('onClickTabs', tab.name);
+  emit('onClickTabs', tab.id);
 };
 
 const isDragging = ref(false);
@@ -98,20 +107,18 @@ const dragStop = () => {
       <li
         v-for="(tab, index) in tabs"
         :key="index"
-        :id="tab.name"
+        :id="tab.id"
         :class="{ 'active': tab.active }"
         class="tab"
         @click="clickTab(index)"
       >
-        {{ tab.name }}
+        {{ tab.description }}
       </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
-
-
 .wrapper {
   position: relative;
   overflow-x: hidden;
