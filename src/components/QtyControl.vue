@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { computed } from 'vue';
 import { PlusIcon, MinusIcon } from '@heroicons/vue/24/solid';
 
 const props = defineProps({
@@ -9,17 +9,8 @@ const props = defineProps({
   }
 });
 
-const quantity = ref(1);
-
-watch(
-  () => props.modelValue, 
-  () => {
-    quantity.value = props.modelValue;
-  }
-);
-
 const isDisabled = computed(() => {
-  return quantity.value < 2;
+  return props.modelValue < 2;
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -29,13 +20,13 @@ const updateValue = (event) => {
 };
 
 const decrement = () => {
-  const count = parseInt(quantity.value) - 1;
-  emit('update:modelValue', count);
+  const quantity = parseInt(props.modelValue) - 1;
+  emit('update:modelValue', quantity);
 };
 
 const increment = () => {
-  const count = parseInt(quantity.value) + 1;
-  emit('update:modelValue', count);
+  const quantity = parseInt(props.modelValue) + 1;
+  emit('update:modelValue', quantity);
 };
 </script>
 

@@ -54,7 +54,7 @@ const { setStorage } = useStorage();
 
     <div class="flex flex-col justify-between min-h-[80px] w-full">
       <div class="flex justify-between items-center w-full">
-        <h1 class="font-semibold font-sans text-base">
+        <h1 class="font-semibold font-sans text-base leading-tight">
           {{ item.name }}
         </h1>
 
@@ -77,11 +77,12 @@ const { setStorage } = useStorage();
         />
       </template>
 
-      <Text
+      <span
         v-if="!additionalSelected.length"
-        :text="item.description"
-        color="secondary"
-      />
+        class="font-sans text-sm text-secondary w-[85%] leading-tight"
+      >
+        {{ item.description }}
+      </span>
 
       <div class="flex justify-between items-center w-full">
         <strong class="font-bold text-base text-primary leading-5">
