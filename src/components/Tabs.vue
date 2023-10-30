@@ -1,26 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/services/firebase-firestore';
-
-const tabs = ref([]);
-
-const isLoading = ref(true);
-
-const getCategories = async () => {
-  const querySnapshot = await getDocs(collection(db, 'categories'));
-
-  querySnapshot.forEach(doc => {
-    const category = {
-      ...{ id: doc.id },
-      ...doc.data()
-    };
-
-    tabs.value.push(category);
-  });
-
-  isLoading.value = false;
-};
+import { useCategoriesStore } from '../stores/categories';
 
 const tabsContainer = ref(null);
 
@@ -34,8 +14,14 @@ const setDragListeners = () => {
   document.addEventListener('touchend', dragStop);  
 };
 
-onMounted(() => {
-  getCategories();
+const categoriesStore = useCategoriesStore();
+const tabs = ref([]);
+const isLoading = ref(true);
+
+onMounted(async () => {
+  await categoriesStore.getCategories();
+  tabs.value = categoriesStore.categories;
+  isLoading.value = false;
   setDragListeners();
 });
 
