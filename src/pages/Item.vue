@@ -1,6 +1,7 @@
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
@@ -8,20 +9,33 @@ import Button from '@/components/Button.vue';
 import QtyControl from '@/components/QtyControl.vue';
 import Checkbox from '@/components/Checkbox.vue';
 
-const cart = ref([]);
+const cartStore = useCartStore();
+
 const item = ref({});
 
 onMounted(() => {
-  cart.value = getStorage('cart') ? getStorage('cart') : [];
   item.value = getStorage('product');
 });
 
-const getImageUrl = (item) => {
-  return new URL(`../assets/img/products/${item.image}`, import.meta.url).href;
+const router = useRouter();
+
+const addToCart = () => {
+  const cartProducts = cartStore.cart.products;
+  const index = cartProducts.findIndex((products) => products.id === item.value.id);
+
+  if (index >= 0) {
+    cartProducts[index].quantity += item.value.quantity;
+    cartProducts[index].additional = item.value.additional;
+  } else {
+    cartStore.addToCart(item.value);
+  }
+  
+  router.push('/cart');
 };
 
 const additionalSelected = computed(() => {
   const additional = item.value.additional || [];
+
   return additional.filter((add) => add.selected);
 });
 
@@ -30,35 +44,16 @@ const totalPrice = computed(() => {
   const quantityItem = item.value.quantity || 0;
   const totalAdditional = additionalSelected.value
     .map(add => add.price * 1)
-    .reduce((total, current) => total + current, 0);
-    
+    .reduce((total, current) => total + current, 0);  
+      
   return (totalItem + totalAdditional) * quantityItem;
 });
 
-watch(
-  () => cart.value,
-  () => {
-    setStorage('cart', cart.value);
-  },
-  { deep: true }
-);
-
-const router = useRouter();
-
-const addToCart = () => {
-  const index = cart.value.findIndex((el) => el.id === item.value.id);
-
-  if (index >= 0) {
-    cart.value[index].quantity += item.value.quantity;
-    cart.value[index].additional = item.value.additional;
-  } else {
-    cart.value.push(item.value);
-  }
-  
-  router.push('/cart');
+const getImageUrl = (item) => {
+  return new URL(`../assets/img/products/${item.id}.png`, import.meta.url).href;
 };
 
-const { setStorage, getStorage } = useStorage();
+const { getStorage } = useStorage();
 </script>
 
 <template>
