@@ -3,19 +3,18 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
-import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
 import Button from '@/components/Button.vue';
 import QtyControl from '@/components/QtyControl.vue';
 import Checkbox from '@/components/Checkbox.vue';
-
-const cartStore = useCartStore();
 
 const item = ref({});
 
 onMounted(() => {
   item.value = getStorage('product');
 });
+
+const cartStore = useCartStore();
 
 const router = useRouter();
 
@@ -33,13 +32,7 @@ const addToCart = () => {
   router.push('/cart');
 };
 
-const additionalSelected = computed(() => {
-  const additional = item.value.additional || [];
-
-  return additional.filter((add) => add.selected);
-});
-
-const totalPrice = computed(() => {
+const totalItemPrice = computed(() => {
   const totalItem = item.value.price || 0;
   const quantityItem = item.value.quantity || 0;
   const totalAdditional = additionalSelected.value
@@ -47,6 +40,12 @@ const totalPrice = computed(() => {
     .reduce((total, current) => total + current, 0);  
       
   return (totalItem + totalAdditional) * quantityItem;
+});
+
+const additionalSelected = computed(() => {
+  const additional = item.value.additional || [];
+
+  return additional.filter((add) => add.selected);
 });
 
 const getImageUrl = (item) => {
@@ -63,10 +62,9 @@ const { getStorage } = useStorage();
   />
     
   <div class="flex flex-col gap-2 mt-64">
-    <Header
-      :text="item.name"
-      size="lg"
-    />
+    <h1 class="font-bold font-sans text-2xl text-font">
+      {{ item.name }}
+    </h1>
 
     <Text
       :text="item.description"
@@ -75,7 +73,7 @@ const { getStorage } = useStorage();
     />
 
     <div class="flex justify-between items-center gap-5">
-      <strong class="font-bold text-2xl text-primary">
+      <strong class="font-bold text-xl text-primary">
         {{ $filters.currencyBRL(item.price) }}
       </strong>
       
@@ -84,10 +82,9 @@ const { getStorage } = useStorage();
 
     <span class="border-b border-accent my-3" />
 
-    <Header
-      text="Adicionais"
-      size="md"
-    />
+    <h1 class="font-bold font-sans text-lg text-font">
+      Adicionais
+    </h1>
 
     <div class="flex flex-col justify-between items-start my-3">
       <span
@@ -115,7 +112,7 @@ const { getStorage } = useStorage();
           color="secondary"
         />
         <strong class="text-xl text-primary">
-          {{ $filters.currencyBRL(totalPrice) }}
+          {{ $filters.currencyBRL(totalItemPrice) }}
         </strong>
       </div>
 

@@ -47,7 +47,7 @@ const { getStorage } = useStorage();
     <Dropdown v-model="deliveryType" />
   </div>
 
-  <div v-if="cartStore.cart.products.length">
+  <div v-if="cartStore.totalItems">
     <Address :delivery="deliveryType" />
   
     <h2 class="font-semibold font-sans text-xl">
