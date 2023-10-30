@@ -46,11 +46,11 @@ const { setStorage } = useStorage();
       </div>
 
       <div class="flex items-center justify-evenly w-3/4 mt-1">
-        <button class="flex gap-1 text-primary bg-primary bg-opacity-20 font-semibold rounded-lg my-2 p-2">
+        <button class="flex gap-1 text-primary bg-primary bg-opacity-20 font-semibold rounded-lg my-2 p-2.5">
           <HeartIcon class="h-4 w-4" />
         </button>
         
-        <button class="flex gap-1 text-primary bg-primary bg-opacity-20 font-semibold rounded-lg my-2 p-2">
+        <button class="flex gap-1 text-primary bg-primary bg-opacity-20 font-semibold rounded-lg my-2 p-2.5">
           <ShoppingCartIcon class="h-4 w-4" />
         </button>
       </div>

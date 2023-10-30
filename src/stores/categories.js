@@ -4,7 +4,11 @@ import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/services/firebase-firestore';
 
 export const useCategoriesStore = defineStore('categories', () => {
-  const categories = ref([]);
+  const categories = ref([{
+    id: 0,
+    description: 'Todos',
+    active: true
+  }]);
 
   const getCategories = async () => {
     const querySnapshot = await getDocs(collection(db, 'categories'));
@@ -16,12 +20,6 @@ export const useCategoriesStore = defineStore('categories', () => {
       };
 
       categories.value.push(product);
-    });
-
-    categories.value.unshift({
-      id: 0,
-      description: 'Todos',
-      active: true
     });
 
     console.log('All Categories: ', categories.value);
