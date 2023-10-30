@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import Header from '@/components/Header.vue';
 import Address from '@/components/Address.vue';
@@ -8,47 +9,31 @@ import Button from '@/components/Button.vue';
 import ItemCart from '@/components/ItemCart.vue';
 import Dropdown from '@/components/Dropdown.vue';
 
-const items = ref([]);
-const delivery = ref('');
+const deliveryType = ref('');
 
 onMounted(() => {
-  items.value = getStorage('cart') || [];
-  delivery.value = getStorage('delivery') || 'Entrega';
+  deliveryType.value = getStorage('delivery') || 'Entrega';
 });
 
-watch(
-  () => items.value,
-  () => {
-    setStorage('cart', items.value);
-  },
-  { deep: true }
-);
-
-const tax = computed(() => {
-  return delivery.value === 'Entrega' ? 5 : 0;
+const deliveryPrice = computed(() => {
+  return deliveryType.value === 'Entrega' ? 5 : 0;
 });
 
-const subtotalItemsPrice = computed(() => {
-  return items.value
-    .map(item => item.quantity * (item.price + item.additional
-      .map(add => (add.selected ? add.price : 0) * 1)
-      .reduce((total, current) => total + current, 0)))
-    .reduce((total, current) => total + current, 0);
-});
+const cartStore = useCartStore();
 
-const totalItemsPrice = computed(() => {
-  return subtotalItemsPrice.value + tax.value;
+const totalPrice = computed(() => {
+  return cartStore.totalItemsPrice + deliveryPrice.value;
 });
 
 const removeItem = (item) => {
-  const index = items.value.findIndex((el) => el.id === item.id);
+  const index = cartStore.cart.products.findIndex((product) => product.id === item.id);
 
   if (index >= 0) {
-    items.value.splice(index, 1);
+    cartStore.removeFromCart(index);
   }
 };
 
-const { setStorage, getStorage } = useStorage();
+const { getStorage } = useStorage();
 </script>
 
 <template>
@@ -59,19 +44,19 @@ const { setStorage, getStorage } = useStorage();
       size="lg"
     />
 
-    <Dropdown v-model="delivery" />
+    <Dropdown v-model="deliveryType" />
   </div>
 
-  <div v-if="items.length">
-    <Address :delivery="delivery" />
+  <div v-if="cartStore.cart.products.length">
+    <Address :delivery="deliveryType" />
   
     <h2 class="font-semibold font-sans text-xl">
-      Itens ({{ items.length }})
+      Itens ({{ cartStore.totalItems }})
     </h2>
 
     <div class="flex flex-col mb-5">
       <ItemCart
-        v-for="(item, index) in items"
+        v-for="(item, index) in cartStore.cart.products"
         :key="index"
         :item="item"
         @on-remove-item="removeItem"
@@ -86,11 +71,11 @@ const { setStorage, getStorage } = useStorage();
           size="lg"
         />
   
-        <strong>{{ $filters.currencyBRL(subtotalItemsPrice) }}</strong>
+        <strong>{{ $filters.currencyBRL(cartStore.totalItemsPrice) }}</strong>
       </div>
 
       <div
-        v-if="delivery === 'Entrega'"
+        v-if="deliveryType === 'Entrega'"
         class="flex justify-between items-center"
       >
         <Text
@@ -99,7 +84,7 @@ const { setStorage, getStorage } = useStorage();
           size="lg"
         />
   
-        <strong>{{ $filters.currencyBRL(tax) }}</strong>
+        <strong>{{ $filters.currencyBRL(deliveryPrice) }}</strong>
       </div>
 
       <div class="flex justify-between items-center">
@@ -110,7 +95,7 @@ const { setStorage, getStorage } = useStorage();
         />
   
         <strong class="text-primary text-lg">
-          {{ $filters.currencyBRL(totalItemsPrice) }}
+          {{ $filters.currencyBRL(totalPrice) }}
         </strong>
       </div>
     </div>

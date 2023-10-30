@@ -3,7 +3,6 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import { useStorage } from '@/use/useStorage';
-import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
 import QtyControl from '@/components/QtyControl.vue';
 
@@ -16,14 +15,6 @@ const props = defineProps({
   }
 });
 
-const getImageUrl = (item) => {
-  return new URL(`../assets/img/products/${item.image}`, import.meta.url).href;
-};
-
-const additionalSelected = computed(() => {
-  return props.item.additional.filter((add) => add.selected);
-});
-
 const totalItemPrice = computed(() => {
   const totalItem = props.item.price || 0;
   const totalAdditional = additionalSelected.value
@@ -33,12 +24,20 @@ const totalItemPrice = computed(() => {
   return totalItem + totalAdditional;
 });
 
+const additionalSelected = computed(() => {
+  return props.item.additional.filter((add) => add.selected);
+});
+
 const router = useRouter();
 
 const handleSelectItem = () => {
   setStorage('product', props.item);
 
   router.push('/item');
+};
+
+const getImageUrl = (item) => {
+  return new URL(`../assets/img/products/${item.id}.png`, import.meta.url).href;
 };
 
 const { setStorage } = useStorage();
@@ -55,7 +54,7 @@ const { setStorage } = useStorage();
 
     <div class="flex flex-col justify-between min-h-[80px] w-full">
       <div class="flex justify-between items-center w-full">
-        <h1 class="font-semibold font-sans text-lg">
+        <h1 class="font-semibold font-sans text-base">
           {{ item.name }}
         </h1>
 
@@ -85,7 +84,7 @@ const { setStorage } = useStorage();
       />
 
       <div class="flex justify-between items-center w-full">
-        <strong class="font-bold text-lg text-primary leading-5">
+        <strong class="font-bold text-base text-primary leading-5">
           {{ $filters.currencyBRL(totalItemPrice) }}
         </strong>
 
