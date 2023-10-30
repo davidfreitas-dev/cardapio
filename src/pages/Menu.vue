@@ -48,7 +48,7 @@ const handleSearch = () => {
 const handleFilter = (param) => {  
   const backupProducts = productsStore.products;
 
-  if (param === 'Todos') {
+  if (param === 0) {
     products.value = backupProducts;
     return;
   }
