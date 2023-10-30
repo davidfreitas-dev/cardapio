@@ -27,13 +27,13 @@ const { setStorage } = useStorage();
 </script>
 
 <template>
-  <div class="font-bold font-sans text-xl my-5">
+  <div class="font-bold font-sans text-xl">
     {{ title }}
   </div>
 
   <div class="swiper-container">
     <swiper
-      :slides-per-view="2.5"
+      :slides-per-view="2.1"
       :space-between="15"
     >
       <swiper-slide
@@ -42,6 +42,7 @@ const { setStorage } = useStorage();
       >
         <Item
           :item="item"
+          class="mb-7"
           @click="handleSelectItem(item)"
         />
       </swiper-slide>
