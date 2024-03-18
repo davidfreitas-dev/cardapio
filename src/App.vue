@@ -4,9 +4,7 @@ import Navigation from '@/components/Navigation.vue';
 </script>
 
 <template>
-  <main class="w-[90%] mx-auto mt-4 mb-24">
-    <RouterView />
-  </main>
+  <RouterView />
   <Navigation />
 </template>
 
