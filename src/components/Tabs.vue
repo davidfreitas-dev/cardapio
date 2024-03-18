@@ -109,6 +109,7 @@ const dragStop = () => {
   position: relative;
   overflow-x: hidden;
   max-width: 1000px;
+  margin: 1rem 0;
 }
 
 .wrapper .tabs-container {
@@ -125,13 +126,13 @@ const dragStop = () => {
 }
 
 .tabs-container .tab {
-  cursor: pointer;
-  font-size: 1rem;
+  font-size: .85rem;
   white-space: nowrap;
-  background: #fafafa;
-  padding: 5px 14px;
+  cursor: pointer;
+  padding: 8px 16px;
   border-radius: 30px;
   border: 1px solid #eaeaea;
+  background: #fafafa;
   user-select: none;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;

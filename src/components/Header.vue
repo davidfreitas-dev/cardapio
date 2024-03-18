@@ -9,7 +9,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <span class="font-bold font-sans text-2xl text-font">
+  <h1 class="font-bold font-sans text-2xl text-font my-4">
     {{ text }}
-  </span>
+  </h1>
 </template>
