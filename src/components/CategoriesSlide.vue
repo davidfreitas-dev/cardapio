@@ -38,7 +38,7 @@ const centerActiveTab = (activeTab) => {
   });
 };
 
-const emit = defineEmits(['onClickTabs']);
+const emit = defineEmits(['clickTabs']);
 
 const clickTab = (i) => {
   const tab = tabs.value[i];
@@ -51,7 +51,7 @@ const clickTab = (i) => {
 
   centerActiveTab(tab);
 
-  emit('onClickTabs', tab.id);
+  emit('clickTabs', tab.id);
 };
 
 const isDragging = ref(false);

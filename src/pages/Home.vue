@@ -1,7 +1,6 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '@/services/firebase-firestore';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useProductsStore } from '@/stores/products';
 import { useStorage } from '@/use/useStorage';
 import Header from '@/components/Header.vue';
 import Banner from '@/components/Banner.vue';
@@ -10,28 +9,19 @@ import ProductsSlide from '@/components/ProductsSlide.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
 
 const isLoading = ref(true);
-
+const productsStore = useProductsStore();
 const products = ref([]);
 
-const loadData = async () => {
-  const querySnapshot = await getDocs(collection(db, 'products'));
+watch(
+  productsStore.products, 
+  (newProducts) => {
+    products.value = newProducts;
+  }
+);
 
-  querySnapshot.forEach(doc => {
-    const product = {
-      ...{ id: doc.id },
-      ...doc.data()
-    };
-
-    products.value.push(product);
-  });
-
-  setStorage('products', products.value);
-
+onMounted(async () => {
+  await productsStore.getProducts();
   isLoading.value = false;
-};
-
-onMounted(() => {
-  loadData();
 });
 
 const favoritesProducts = computed(() => {
@@ -61,14 +51,14 @@ const promoProducts = computed(() => {
 });
 
 const handleFilter = (param) => {  
-  const backupProducts = [ ...products.value ];
+  const backupProducts = productsStore.products;
 
   if (param === 0) {
     products.value = backupProducts;
     return;
   }
 
-  products.value = backupProducts.filter((product => product.idcategory === param));
+  products.value = backupProducts.filter(product => product.idcategory === param);
 };
 
 const { setStorage, getStorage } = useStorage();
@@ -80,19 +70,7 @@ const { setStorage, getStorage } = useStorage();
     <Banner />
   </BaseLayout>
 
-  <CategoriesSlide @on-click-tabs="handleFilter" />
+  <CategoriesSlide @click-tabs="handleFilter" />
 
   <ProductsSlide :products="products" />
-
-  <!-- <BaseLayout>
-    <ItemSlides
-      title="Mais queridos"
-      :items="favoritesProducts"
-    />
-
-    <ItemSlides
-      title="Promoções do dia"
-      :items="promoProducts"
-    />
-  </BaseLayout> -->
 </template>
