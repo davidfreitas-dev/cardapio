@@ -124,7 +124,7 @@ const dragStop = () => {
 }
 
 .products-container .product {
-  width: 40%;
+  width: 100%;
 }
 
 .products-container .product:first-child{

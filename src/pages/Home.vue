@@ -6,6 +6,9 @@ import { useStorage } from '@/use/useStorage';
 import Header from '@/components/Header.vue';
 import Banner from '@/components/Banner.vue';
 import ItemSlides from '@/components/ItemSlides.vue';
+import CategoriesSlide from '@/components/CategoriesSlide.vue';
+import ProductsSlide from '@/components/ProductsSlide.vue';
+import BaseLayout from '@/components/shared/BaseLayout.vue';
 
 const isLoading = ref(true);
 
@@ -58,21 +61,39 @@ const promoProducts = computed(() => {
   return selectedProducts;
 });
 
+const handleFilter = (param) => {  
+  const backupProducts = [ ...products.value ];
+
+  if (param === 0) {
+    products.value = backupProducts;
+    return;
+  }
+
+  products.value = backupProducts.filter((product => product.idcategory === param));
+};
+
 const { setStorage, getStorage } = useStorage();
 </script>
 
 <template>
-  <Header text="Bem-vindo 👋" />
+  <BaseLayout>
+    <Header text="Bem-vindo 👋" />
+    <Banner />
+  </BaseLayout>
 
-  <Banner />
+  <CategoriesSlide @on-click-tabs="handleFilter" />
 
-  <ItemSlides
-    title="Mais queridos"
-    :items="favoritesProducts"
-  />
+  <ProductsSlide :products="products" />
 
-  <ItemSlides
-    title="Promoções do dia"
-    :items="promoProducts"
-  />
+  <!-- <BaseLayout>
+    <ItemSlides
+      title="Mais queridos"
+      :items="favoritesProducts"
+    />
+
+    <ItemSlides
+      title="Promoções do dia"
+      :items="promoProducts"
+    />
+  </BaseLayout> -->
 </template>
