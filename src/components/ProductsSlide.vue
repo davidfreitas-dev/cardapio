@@ -131,11 +131,11 @@ const dragStop = () => {
 }
 
 .products-container .product:first-child{
-  margin-left: 1rem;
+  margin-left: 1.25rem;
 }
 
 .products-container .product:last-child{
-  margin-right: 1rem;
+  margin-right: 1.25rem;
 }
 
 .products-container.dragging .product {
