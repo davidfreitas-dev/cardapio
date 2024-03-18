@@ -1,10 +1,11 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
+import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Header from '@/components/Header.vue';
 import Input from '@/components/Input.vue';
 import CategoriesSlide from '@/components/CategoriesSlide.vue';
-import Item from '@/components/Item.vue';
+import ProductCard from '@/components/ProductCard.vue';
 import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
 
 const productsStore = useProductsStore();
@@ -58,31 +59,35 @@ const handleFilter = (param) => {
 </script>
 
 <template>
-  <Header
-    text="Cardápio"
-    size="lg"
-  />
+  <BaseLayout>
+    <Header
+      text="Cardápio"
+      size="lg"
+    />
 
-  <Input
-    v-model="search"
-    v-debounce:500ms="handleSearch"
-    type="search"
-    class="border my-5"
-    placeholder="O que você esta procurando?"
-  />
+    <Input
+      v-model="search"
+      v-debounce:500ms="handleSearch"
+      type="search"
+      class="border my-5"
+      placeholder="O que você esta procurando?"
+    />
+  </BaseLayout>
 
   <CategoriesSlide @on-click-tabs="handleFilter" />
+  
+  <BaseLayout>
+    <ItemsSkeleton v-if="isLoading" />
 
-  <ItemsSkeleton v-if="isLoading" />
-
-  <div
-    v-if="!isLoading && products.length"
-    class="grid grid-cols-2 gap-4 my-5 mx-[1px]"
-  >
-    <Item
-      v-for="(item, index) in products"
-      :key="index"
-      :item="item"
-    />
-  </div>
+    <div
+      v-if="!isLoading && products.length"
+      class="grid grid-cols-2 gap-4 my-5 mx-[1px]"
+    >
+      <ProductCard
+        v-for="(item, index) in products"
+        :key="index"
+        :item="item"
+      />
+    </div>
+  </BaseLayout>
 </template>

@@ -27,7 +27,7 @@ const { setStorage } = useStorage();
 
 <template>
   <div
-    class="item-container flex flex-col justify-between items-center gap-2 shadow-xl rounded-xl cursor-pointer w-[140px] min-h-[220px] p-3 mb-8"
+    class="item-container flex flex-col justify-between items-center gap-2 shadow-xl rounded-xl cursor-pointer w-full min-h-[220px] p-3"
     @click="handleSelectItem"
   >
     <img

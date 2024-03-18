@@ -96,7 +96,10 @@ const dragStop = () => {
         :id="product.id"
         class="product"
       >
-        <ProductCard :item="product" />
+        <ProductCard
+          class="mb-8 w-[140px]"
+          :item="product"
+        />
       </div>
     </ul>
   </div>

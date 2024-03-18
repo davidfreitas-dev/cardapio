@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import Text from '@/components/Text.vue';
+import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Button from '@/components/Button.vue';
 import QtyControl from '@/components/QtyControl.vue';
 import Checkbox from '@/components/Checkbox.vue';
@@ -61,65 +62,67 @@ const { getStorage } = useStorage();
     :style="`background-image: url('${getImageUrl(item)}');`"
   />
     
-  <div class="flex flex-col gap-2 mt-64">
-    <h1 class="font-bold font-sans text-2xl text-font">
-      {{ item.name }}
-    </h1>
+  <BaseLayout>
+    <div class="flex flex-col gap-2 mt-64">
+      <h1 class="font-bold font-sans text-2xl text-font">
+        {{ item.name }}
+      </h1>
 
-    <Text
-      :text="item.description"
-      color="secondary"
-      size="lg"
-    />
+      <Text
+        :text="item.description"
+        color="secondary"
+        size="lg"
+      />
 
-    <div class="flex justify-between items-center gap-5">
-      <strong class="font-bold text-xl text-primary">
-        {{ $filters.currencyBRL(item.price) }}
-      </strong>
+      <div class="flex justify-between items-center gap-5">
+        <strong class="font-bold text-xl text-primary">
+          {{ $filters.currencyBRL(item.price) }}
+        </strong>
       
-      <QtyControl v-model="item.quantity" />
-    </div>
-
-    <span class="border-b border-accent my-3" />
-
-    <h1 class="font-bold font-sans text-lg text-font">
-      Adicionais
-    </h1>
-
-    <div class="flex flex-col justify-between items-start my-3">
-      <span
-        v-for="(additional, index) in item.additional"
-        :key="index"
-        class="flex justify-between items-center border-x first:border-t border-b border-accent first:rounded-t-xl last:rounded-b-xl w-full p-3.5"
-      >
-        <Checkbox
-          v-model="additional.selected"
-          :text="additional.name"
-        />
-
-        <strong>
-          {{ $filters.currencyBRL(additional.price) }}
-        </strong>
-      </span>
-    </div>
-  </div>
-
-  <div class="box-shadow fixed left-0 bottom-0 z-20 w-full h-[80px] bg-white">
-    <div class="flex w-11/12 mx-auto py-2.5">
-      <div class="flex flex-col w-[60%]">
-        <Text
-          text="Total"
-          color="secondary"
-        />
-        <strong class="text-xl text-primary">
-          {{ $filters.currencyBRL(totalItemPrice) }}
-        </strong>
+        <QtyControl v-model="item.quantity" />
       </div>
 
-      <Button
-        text="Adicionar"
-        @click="addToCart"
-      />
+      <span class="border-b border-accent my-3" />
+
+      <h1 class="font-bold font-sans text-lg text-font">
+        Adicionais
+      </h1>
+
+      <div class="flex flex-col justify-between items-start my-3">
+        <span
+          v-for="(additional, index) in item.additional"
+          :key="index"
+          class="flex justify-between items-center border-x first:border-t border-b border-accent first:rounded-t-xl last:rounded-b-xl w-full p-3.5"
+        >
+          <Checkbox
+            v-model="additional.selected"
+            :text="additional.name"
+          />
+
+          <strong>
+            {{ $filters.currencyBRL(additional.price) }}
+          </strong>
+        </span>
+      </div>
     </div>
-  </div>
+
+    <div class="box-shadow fixed left-0 bottom-0 z-20 w-full h-[80px] bg-white">
+      <div class="flex w-11/12 mx-auto py-2.5">
+        <div class="flex flex-col w-[60%]">
+          <Text
+            text="Total"
+            color="secondary"
+          />
+          <strong class="text-xl text-primary">
+            {{ $filters.currencyBRL(totalItemPrice) }}
+          </strong>
+        </div>
+
+        <Button
+          text="Adicionar"
+          @click="addToCart"
+        />
+      </div>
+    </div>
+  </BaseLayout>
 </template>

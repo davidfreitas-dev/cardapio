@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
 import { useToast } from '@/use/useToast';
 import Header from '@/components/Header.vue';
+import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Input from '@/components/Input.vue';
 import Button from '@/components/Button.vue';
 import Toast from '@/components/Toast.vue';
@@ -70,101 +71,103 @@ const { toast, toastData, handleToast } = useToast();
 </script>
 
 <template>
-  <Header
-    text="Perfil"
-    color="primary"
-    size="lg"
-  />
-
-  <div class="flex flex-col gap-5 my-5">
+  <BaseLayout>
     <Header
-      text="Meus dados"
-      size="sm"
+      text="Perfil"
+      color="primary"
+      size="lg"
     />
 
-    <Input
-      v-model="user.firstName"
-      type="text"
-      placeholder="Nome"
-    />
+    <div class="flex flex-col gap-5 my-5">
+      <Header
+        text="Meus dados"
+        size="sm"
+      />
 
-    <Input
-      v-model="user.lastName"
-      type="text"
-      placeholder="Sobrenome"
-    />
+      <Input
+        v-model="user.firstName"
+        type="text"
+        placeholder="Nome"
+      />
 
-    <Input
-      v-model="user.phone"
-      type="text"
-      placeholder="Telefone"
-    />
+      <Input
+        v-model="user.lastName"
+        type="text"
+        placeholder="Sobrenome"
+      />
 
-    <Header
-      placeholder="Endereço"
-      size="sm"
-    />
+      <Input
+        v-model="user.phone"
+        type="text"
+        placeholder="Telefone"
+      />
 
-    <Input
-      v-model="address.cep"
-      v-debounce:700ms="getByCEP"
-      type="tel"
-      placeholder="CEP"
-    />
+      <Header
+        placeholder="Endereço"
+        size="sm"
+      />
 
-    <Input
-      v-model="address.logradouro"
-      type="text"
-      placeholder="Endereço"
-      :disabled="!address.cep"
-    />
+      <Input
+        v-model="address.cep"
+        v-debounce:700ms="getByCEP"
+        type="tel"
+        placeholder="CEP"
+      />
 
-    <Input
-      v-model="address.numero"
-      type="text"
-      placeholder="Número"
-      :disabled="!address.cep"
-    />
+      <Input
+        v-model="address.logradouro"
+        type="text"
+        placeholder="Endereço"
+        :disabled="!address.cep"
+      />
 
-    <Input
-      v-model="address.complemento"
-      type="text"
-      placeholder="Complemento"
-      :disabled="!address.cep"
-    />
+      <Input
+        v-model="address.numero"
+        type="text"
+        placeholder="Número"
+        :disabled="!address.cep"
+      />
 
-    <Input
-      v-model="address.bairro"
-      type="text"
-      placeholder="Bairro"
-      :disabled="!address.cep"
-    />
+      <Input
+        v-model="address.complemento"
+        type="text"
+        placeholder="Complemento"
+        :disabled="!address.cep"
+      />
 
-    <Input
-      v-model="address.localidade"
-      type="text"
-      placeholder="Cidade"
-      :disabled="true"
-    />
+      <Input
+        v-model="address.bairro"
+        type="text"
+        placeholder="Bairro"
+        :disabled="!address.cep"
+      />
 
-    <Input
-      v-model="address.uf"
-      type="text"
-      placeholder="Estado"
-      :disabled="true"
-    />
+      <Input
+        v-model="address.localidade"
+        type="text"
+        placeholder="Cidade"
+        :disabled="true"
+      />
 
-    <div class="flex justify-between items-center">
-      <Button
-        text="Salvar Dados"
-        color="primary"
-        @click="handleSave"
+      <Input
+        v-model="address.uf"
+        type="text"
+        placeholder="Estado"
+        :disabled="true"
+      />
+
+      <div class="flex justify-between items-center">
+        <Button
+          text="Salvar Dados"
+          color="primary"
+          @click="handleSave"
+        />
+      </div>
+
+      <Toast
+        ref="toast"
+        :toast-data="toastData"
       />
     </div>
-
-    <Toast
-      ref="toast"
-      :toast-data="toastData"
-    />
-  </div>
+  </BaseLayout>
 </template>

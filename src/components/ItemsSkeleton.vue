@@ -5,7 +5,7 @@
       :key="i"
       class="animate-pulse flex flex-col"
     >
-      <div class="rounded-xl bg-gray-200 h-80 w-full" />
+      <div class="rounded-xl bg-gray-200 h-[220px] w-full" />
       <!-- <div class="flex-1 space-y-6 py-3">
         <div class="space-y-3">
           <div class="h-2 bg-gray-200 rounded" />

@@ -5,7 +5,6 @@ import { db } from '@/services/firebase-firestore';
 import { useStorage } from '@/use/useStorage';
 import Header from '@/components/Header.vue';
 import Banner from '@/components/Banner.vue';
-import ItemSlides from '@/components/ItemSlides.vue';
 import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import ProductsSlide from '@/components/ProductsSlide.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
