@@ -3,7 +3,7 @@ import { ref, watch, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
 import Header from '@/components/Header.vue';
 import Input from '@/components/Input.vue';
-import Tabs from '@/components/Tabs.vue';
+import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import Item from '@/components/Item.vue';
 import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
 
@@ -71,7 +71,7 @@ const handleFilter = (param) => {
     placeholder="O que você esta procurando?"
   />
 
-  <Tabs @on-click-tabs="handleFilter" />
+  <CategoriesSlide @on-click-tabs="handleFilter" />
 
   <ItemsSkeleton v-if="isLoading" />
 
