@@ -1,7 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
-import { PlusIcon, HeartIcon } from '@heroicons/vue/24/outline';
+import { PlusIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
   item: {
@@ -27,7 +27,7 @@ const { setStorage } = useStorage();
 
 <template>
   <div
-    class="item-container flex flex-col justify-between items-center gap-2 shadow-xl rounded-xl cursor-pointer w-[140px] min-h-[220px] p-3 my-4"
+    class="item-container flex flex-col justify-between items-center gap-2 shadow-xl rounded-xl cursor-pointer w-[140px] min-h-[220px] p-3 mb-8"
     @click="handleSelectItem"
   >
     <img
