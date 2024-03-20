@@ -78,7 +78,7 @@ const { toast, toastData, handleToast } = useToast();
       size="lg"
     />
 
-    <div class="flex flex-col gap-5 my-5">
+    <div class="flex flex-col gap-5 my-5 pb-20">
       <Header
         text="Meus dados"
         size="sm"
@@ -103,7 +103,7 @@ const { toast, toastData, handleToast } = useToast();
       />
 
       <Header
-        placeholder="Endereço"
+        text="Endereço"
         size="sm"
       />
 

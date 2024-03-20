@@ -34,6 +34,7 @@ const { setStorage } = useStorage();
   <div
     class="card-container flex flex-col gap-2 w-full shadow-xl rounded-xl cursor-pointer p-3"
     :class="{'min-w-[40%] max-w-[40%] mb-8': slide}"
+    @click="handleSelectItem"
   >
     <img
       :src="getImageUrl(item)"

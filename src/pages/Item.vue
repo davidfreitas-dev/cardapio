@@ -106,7 +106,7 @@ const { getStorage } = useStorage();
       </div>
     </div>
 
-    <div class="box-shadow fixed left-0 bottom-0 z-20 w-full h-[80px] bg-white">
+    <div class="box-shadow fixed left-0 bottom-0 z-20 w-full h-[80px] bg-white pb-20">
       <div class="flex w-11/12 mx-auto py-2.5">
         <div class="flex flex-col w-[60%]">
           <Text
