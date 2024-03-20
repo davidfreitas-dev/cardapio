@@ -86,15 +86,17 @@ const dragStop = () => {
   productsContainer.value.classList.remove('dragging');
 };
 
-const isIOS = computed(() => {
+const iosPlatform = computed(() => {
   return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 });
 </script>
 
 <template>
   <div class="wrapper">
-    <ul class="products-container">
-      {{ isIOS }}
+    <ul
+      class="products-container"
+      :class="{ 'ios-padding': iosPlatform }"
+    >
       <ProductCard
         v-for="(product, index) in products"
         :key="index"
@@ -142,5 +144,9 @@ const isIOS = computed(() => {
 .products-container.dragging .product {
   user-select: none;
   pointer-events: none;
+}
+
+.ios-padding {
+  padding-right: 18px !important;
 }
 </style>

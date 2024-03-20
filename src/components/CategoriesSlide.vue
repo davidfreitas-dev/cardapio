@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useCategoriesStore } from '../stores/categories';
 
 const tabsContainer = ref(null);
@@ -85,11 +85,18 @@ const dragStop = () => {
   isDragging.value = false;
   tabsContainer.value.classList.remove('dragging');
 };
+
+const iosPlatform = computed(() => {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+});
 </script>
 
 <template>
   <div class="wrapper">
-    <ul class="tabs-container">
+    <ul
+      class="tabs-container"
+      :class="{ 'ios-padding': iosPlatform }"
+    >
       <li
         v-for="(tab, index) in tabs"
         :key="index"
@@ -159,5 +166,9 @@ const dragStop = () => {
   color: #fff;
   background: #307a59;
   border-color: transparent;
+}
+
+.ios-padding {
+  padding-right: 18px !important;
 }
 </style>
