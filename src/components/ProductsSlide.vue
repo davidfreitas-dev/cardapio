@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import ProductCard from '@/components/ProductCard.vue';
 
 const props = defineProps({
@@ -21,8 +21,21 @@ const setDragListeners = () => {
   document.addEventListener('touchend', dragStop);  
 };
 
+const removeDragListeners = () => {
+  productsContainer.value.removeEventListener('mousedown', setDrag);
+  productsContainer.value.removeEventListener('touchstart', setDrag);
+  productsContainer.value.removeEventListener('mousemove', dragging);
+  productsContainer.value.removeEventListener('touchmove', dragging);
+  document.removeEventListener('mouseup', dragStop);
+  document.removeEventListener('touchend', dragStop);
+};
+
 onMounted(async () => {
   setDragListeners();
+});
+
+onUnmounted(() => {
+  removeDragListeners();
 });
 
 const centerActiveProduct = (activeProduct) => {
@@ -102,6 +115,7 @@ const iosPlatform = computed(() => {
         :key="index"
         :id="product.id"
         :item="product"
+        :slide="true"
         class="product"
       />
     </ul>

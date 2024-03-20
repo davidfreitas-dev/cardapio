@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
 import { PlusIcon } from '@heroicons/vue/24/outline';
@@ -7,6 +8,10 @@ const props = defineProps({
   item: {
     type: Object,
     default: () => {}
+  },
+  slide: {
+    type: Boolean,
+    default: false
   }
 });
 
@@ -26,7 +31,10 @@ const { setStorage } = useStorage();
 </script>
 
 <template>
-  <div class="card-container flex flex-col gap-2 min-w-[40%] max-w-[40%] shadow-xl rounded-xl cursor-pointer p-3 mb-8">
+  <div
+    class="card-container flex flex-col gap-2 w-full shadow-xl rounded-xl cursor-pointer p-3"
+    :class="{'min-w-[40%] max-w-[40%] mb-8': slide}"
+  >
     <img
       :src="getImageUrl(item)"
       :alt="`Imagem de ${item.description}`"
