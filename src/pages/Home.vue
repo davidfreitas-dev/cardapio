@@ -24,7 +24,7 @@ onMounted(async () => {
   isLoading.value = false;
 });
 
-const favoritesProducts = computed(() => {
+const favoriteProducts = computed(() => {
   const products = getStorage('products') || [];
 
   const selectedProducts = [];
@@ -72,5 +72,19 @@ const { setStorage, getStorage } = useStorage();
 
   <CategoriesSlide @click-tabs="handleFilter" />
 
-  <ProductsSlide :products="products" />
+  <Header
+    text="Mais pedidos"
+    size="sm"
+    class="pl-5"
+  />
+  <ProductsSlide :products="favoriteProducts" />
+
+  <!-- <Header
+    text="Promoções"
+    size="sm"
+    class="pl-5"
+  />
+  <ProductsSlide :products="promoProducts" /> -->
+
+  <div class="pb-20" />
 </template>
