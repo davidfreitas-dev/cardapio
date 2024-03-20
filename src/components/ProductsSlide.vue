@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import ProductCard from '@/components/ProductCard.vue';
 
 const props = defineProps({
@@ -85,22 +85,23 @@ const dragStop = () => {
   isDragging.value = false;
   productsContainer.value.classList.remove('dragging');
 };
+
+const isIOS = computed(() => {
+  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+});
 </script>
 
 <template>
   <div class="wrapper">
     <ul class="products-container">
-      <div
+      {{ isIOS }}
+      <ProductCard
         v-for="(product, index) in products"
         :key="index"
         :id="product.id"
+        :item="product"
         class="product"
-      >
-        <ProductCard
-          class="mb-8 w-[140px]"
-          :item="product"
-        />
-      </div>
+      />
     </ul>
   </div>
 </template>

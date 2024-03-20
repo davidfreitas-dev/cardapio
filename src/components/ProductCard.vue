@@ -26,22 +26,18 @@ const { setStorage } = useStorage();
 </script>
 
 <template>
-  <div
-    class="item-container flex flex-col justify-between items-center gap-2 shadow-xl rounded-xl cursor-pointer w-full min-h-[220px] p-3"
-    @click="handleSelectItem"
-  >
+  <div class="card-container flex flex-col gap-2 min-w-[40%] max-w-[40%] shadow-xl rounded-xl cursor-pointer p-3 mb-8">
     <img
       :src="getImageUrl(item)"
       :alt="`Imagem de ${item.description}`"
-      class="item-img w-full h-auto rounded-lg"
+      class="card-img w-full h-auto rounded-lg"
     >
-
-    <div class="item-content flex flex-col w-full">
-      <div class="item-desc font-bold text-sm text-font h-[40px]">
+    <div class="card-content flex flex-col w-full">
+      <div class="card-title font-bold text-sm text-font h-[40px]">
         {{ item.name }}
       </div>
 
-      <div class="flex items-center justify-between w-full mt-1">
+      <div class="card-info flex items-center justify-between w-full mt-1">
         <strong class="item-price font-bold text-base text-primary">
           {{ $filters.currencyBRL(item.price) }}
         </strong>
