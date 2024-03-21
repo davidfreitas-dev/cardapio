@@ -6,26 +6,30 @@ const props = defineProps({
   products: {
     type: Array,
     default: () => []
+  },
+  slideId: {
+    type: String,
+    required: true
   }
 });
 
-const productsContainer = ref(undefined);
+const slideContainer = ref(null);
 
 const setDragListeners = () => {
-  productsContainer.value = document.querySelector('.products-container');
-  productsContainer.value.addEventListener('mousedown', setDrag);
-  productsContainer.value.addEventListener('touchstart', setDrag);
-  productsContainer.value.addEventListener('mousemove', dragging);
-  productsContainer.value.addEventListener('touchmove', dragging);
+  slideContainer.value = document.querySelector(`.slide-${props.slideId}`);
+  slideContainer.value.addEventListener('mousedown', setDrag);
+  slideContainer.value.addEventListener('touchstart', setDrag);
+  slideContainer.value.addEventListener('mousemove', dragging);
+  slideContainer.value.addEventListener('touchmove', dragging);
   document.addEventListener('mouseup', dragStop);
   document.addEventListener('touchend', dragStop);  
 };
 
 const removeDragListeners = () => {
-  productsContainer.value.removeEventListener('mousedown', setDrag);
-  productsContainer.value.removeEventListener('touchstart', setDrag);
-  productsContainer.value.removeEventListener('mousemove', dragging);
-  productsContainer.value.removeEventListener('touchmove', dragging);
+  slideContainer.value.removeEventListener('mousedown', setDrag);
+  slideContainer.value.removeEventListener('touchstart', setDrag);
+  slideContainer.value.removeEventListener('mousemove', dragging);
+  slideContainer.value.removeEventListener('touchmove', dragging);
   document.removeEventListener('mouseup', dragStop);
   document.removeEventListener('touchend', dragStop);
 };
@@ -38,22 +42,22 @@ onUnmounted(() => {
   removeDragListeners();
 });
 
-const centerActiveProduct = (activeProduct) => {
-  const containerWidth = productsContainer.value.clientWidth;
-  const productContainer = document.getElementById(activeProduct.id);
+const centerActiveSlide = (activeSlide) => {
+  const slideWidth = slideContainer.value.clientWidth;
+  const productContainer = document.getElementById(activeSlide.id);
   const productContainerWidth = productContainer.clientWidth;
   const productContainerLeft = productContainer.offsetLeft;
-  const scrollLeft = productContainerLeft - containerWidth / 2 + productContainerWidth / 2;
+  const scrollLeft = productContainerLeft - slideWidth / 2 + productContainerWidth / 2;
 
-  productsContainer.value.scrollTo({
+  slideContainer.value.scrollTo({
     left: scrollLeft,
     behavior: 'smooth',
   });
 };
 
-const emit = defineEmits(['clickProducts']);
+const emit = defineEmits(['clickSlide']);
 
-const clickProduct = (i) => {
+const clickSlide = (i) => {
   const product = props.products[i];
 
   props.products.forEach(item => {
@@ -62,9 +66,9 @@ const clickProduct = (i) => {
 
   product.active = true;
 
-  centerActiveProduct(product);
+  centerActiveSlide(product);
 
-  emit('clickProducts', product.id);
+  emit('clickSlide', product.id);
 };
 
 const isDragging = ref(false);
@@ -90,13 +94,13 @@ const dragging = (e) => {
     touchStartX.value = touchEndX;
   }
 
-  productsContainer.value.classList.add('dragging');
-  productsContainer.value.scrollLeft -= movementX;
+  slideContainer.value.classList.add('dragging');
+  slideContainer.value.scrollLeft -= movementX;
 };
 
 const dragStop = () => {
   isDragging.value = false;
-  productsContainer.value.classList.remove('dragging');
+  slideContainer.value.classList.remove('dragging');
 };
 
 const iosPlatform = computed(() => {
@@ -106,14 +110,11 @@ const iosPlatform = computed(() => {
 
 <template>
   <div class="wrapper">
-    <ul
-      class="products-container"
-      :class="{ 'ios-padding': iosPlatform }"
-    >
+    <ul :class="['products-container', `slide-${slideId}`, { 'ios-padding': iosPlatform }]">
       <ProductCard
         v-for="(product, index) in products"
         :key="index"
-        :id="product.id"
+        :id="`${slideId}-${product.id}`"
         :item="product"
         :slide="true"
         class="product"

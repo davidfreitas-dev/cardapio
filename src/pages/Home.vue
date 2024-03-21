@@ -77,14 +77,20 @@ const { setStorage, getStorage } = useStorage();
     size="sm"
     class="pl-5"
   />
-  <ProductsSlide :products="favoriteProducts" />
+  <ProductsSlide
+    :products="favoriteProducts"
+    slide-id="1"
+  />
 
-  <!-- <Header
+  <Header
     text="Promoções"
     size="sm"
     class="pl-5"
   />
-  <ProductsSlide :products="promoProducts" /> -->
+  <ProductsSlide
+    :products="promoProducts"
+    slide-id="2"
+  />
 
   <div class="pb-20" />
 </template>
