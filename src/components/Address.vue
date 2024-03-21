@@ -3,9 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
-import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
-import Button from '@/components/shared/Button.vue';
 
 const props = defineProps({
   delivery: {
@@ -48,14 +46,14 @@ const { getStorage } = useStorage();
         :text="address"
         class="text-white w-[90%] mb-2"
       />
-      
-      <Button
+
+      <button
         v-if="delivery === 'Entrega'"
-        :text="userAddress ? 'Alterar' : 'Adicionar'"
-        color="light"
-        size="sm"
         @click="router.push('/profile')"
-      />
+        class="bg-white text-primary text-sm font-bold h-8 px-3 tracking-wide rounded-lg transition-all duration-200 ease-in active:scale-95"
+      >
+        {{ userAddress ? 'Alterar' : 'Adicionar' }}
+      </button>
     </div>
 
     <div class="absolute left-4 right-4 -bottom-2.5 h-32 w-11/12 rounded-xl -z-10 bg-accent" />
