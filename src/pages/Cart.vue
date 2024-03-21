@@ -49,7 +49,13 @@ const { getStorage } = useStorage();
       <Dropdown v-model="deliveryType" />
     </div>
 
-    <div v-if="cartStore.totalItems">
+    <div v-if="!cartStore.totalItems" class="flex flex-col items-center text-center w-full h-screen p-8 mt-5">
+      <span class="font-semibold font-sans text-lg">
+        Você ainda não adicionou nenhum item
+      </span>
+    </div>
+
+    <div v-else class="pb-20">
       <Address :delivery="deliveryType" />
   
       <h2 class="font-semibold font-sans text-xl">
@@ -105,15 +111,6 @@ const { getStorage } = useStorage();
       <Button :expand="true" class="my-5">
         Enviar Pedido
       </Button>
-    </div>
-
-    <div
-      v-else
-      class="flex flex-col items-center text-center w-full h-screen p-8 mt-5"
-    >
-      <span class="font-semibold font-sans text-lg">
-        Você ainda não adicionou nenhum item
-      </span>
     </div>
   </BaseLayout>
 </template>
