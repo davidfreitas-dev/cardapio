@@ -9,23 +9,14 @@ import ProductCard from '@/components/ProductCard.vue';
 import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
 
 const productsStore = useProductsStore();
-
 const isLoading = ref(true);
+const products = ref([]);
 
 onMounted(async () => {
   await productsStore.getProducts();
-  
+  products.value = productsStore.products;
   isLoading.value = false;
 });
-
-const products = ref([]);
-
-watch(
-  productsStore.products, 
-  (newProducts) => {
-    products.value = newProducts;
-  }
-);
 
 const search = ref('');
 
