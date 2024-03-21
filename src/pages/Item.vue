@@ -35,7 +35,7 @@ const addToCart = () => {
 
 const totalItemPrice = computed(() => {
   const totalItem = item.value.price || 0;
-  const quantityItem = item.value.quantity || 0;
+  const quantityItem = item.value.quantity || 1;
   const totalAdditional = additionalSelected.value
     .map(add => add.price * 1)
     .reduce((total, current) => total + current, 0);  
