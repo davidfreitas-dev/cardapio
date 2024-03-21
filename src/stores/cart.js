@@ -19,7 +19,7 @@ export const useCartStore = defineStore('cart', () => {
 
   const totalItemsPrice = computed(() => {
     cart.value.totalPrice = cart.value.products
-      .map(item => item.quantity * (item.price + item.additional
+      .map(item => item.quantity || 1 * (item.price + item.additional
         .map(add => (add.selected ? add.price : 0) * 1)
         .reduce((total, current) => total + current, 0)))
       .reduce((total, current) => total + current, 0);
