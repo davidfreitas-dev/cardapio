@@ -32,14 +32,15 @@ const handleAddToCart = () => {
   const item = { ...props.item };
   const cartProducts = cartStore.cart.products;
   const index = cartProducts.findIndex((products) => products.id === item.id);
-
+  
+  item.quantity = item.quantity || 1;
+  
   if (index >= 0) {
+    console.log(item.quantity);
     cartProducts[index].quantity += item.quantity;
     cartProducts[index].additional = item.additional;
     return;
   } 
-  
-  item.quantity = item.quantity || 1;
 
   cartStore.addToCart(item);
 };
