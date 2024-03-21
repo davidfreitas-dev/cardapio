@@ -4,7 +4,6 @@ import { useProductsStore } from '@/stores/products';
 import { useStorage } from '@/use/useStorage';
 import Header from '@/components/shared/Header.vue';
 import Banner from '@/components/Banner.vue';
-import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import ProductsSlide from '@/components/ProductsSlide.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
 
@@ -50,18 +49,7 @@ const promoProducts = computed(() => {
   return selectedProducts;
 });
 
-const handleFilter = (param) => {  
-  const backupProducts = productsStore.products;
-
-  if (param === 0) {
-    products.value = backupProducts;
-    return;
-  }
-
-  products.value = backupProducts.filter(product => product.idcategory === param);
-};
-
-const { setStorage, getStorage } = useStorage();
+const { getStorage } = useStorage();
 </script>
 
 <template>
@@ -69,8 +57,6 @@ const { setStorage, getStorage } = useStorage();
     <Header text="Bem-vindo 👋" />
     <Banner />
   </BaseLayout>
-
-  <CategoriesSlide @click-tabs="handleFilter" />
 
   <Header
     text="Mais pedidos"

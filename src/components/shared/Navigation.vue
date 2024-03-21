@@ -1,7 +1,16 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { HomeIcon, MagnifyingGlassIcon, RectangleStackIcon, ShoppingCartIcon, UserIcon  } from '@heroicons/vue/24/solid';
+import { useCartStore } from '@/stores/cart';
+
+const route = useRoute();
+const router = useRouter();
+const cartStore = useCartStore();
+
+onMounted(() => {
+  setActive(route.path);
+});
 
 const menu = ref([
   { name: 'Início', link: '/home', active: true },
@@ -11,19 +20,20 @@ const menu = ref([
   { name: 'Perfil', link: '/profile', active: false }
 ]);
 
-const route = useRoute();
-const router = useRouter();
-
-watch(() => route.name, () => {
-  const index = menu.value.findIndex((el) => el.link === route.path);
+const setActive = (path) => {
+  const index = menu.value.findIndex((el) => el.link === path);
 
   menu.value.forEach(item => {
     item.active = false;
   });
-  
+
   if (index >= 0) {
     menu.value[index].active = true;
   }
+};
+
+watch(() => route.name, () => {
+  setActive(route.path);
 });
 </script>
 
@@ -52,10 +62,12 @@ watch(() => route.name, () => {
           class="h-6 w-6"
         />
 
-        <ShoppingCartIcon
-          v-if="item.name === 'Carrinho'"
-          class="h-6 w-6"
-        />
+        <div v-if="item.name === 'Carrinho'" class="relative icon-container">
+          <ShoppingCartIcon class="h-6 w-6" />
+          <span v-if="cartStore.totalItems" class="absolute -top-1 -right-3 bg-green-600 text-white rounded-full px-1.5 py-0.5 text-xs">
+            {{ cartStore.totalItems }}
+          </span>
+        </div>
 
         <UserIcon
           v-if="item.name === 'Perfil'"

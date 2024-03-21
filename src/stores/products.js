@@ -7,6 +7,8 @@ export const useProductsStore = defineStore('products', () => {
   const products = ref([]);
 
   const getProducts = async () => {
+    let arrProducts = [];
+
     const querySnapshot = await getDocs(collection(db, 'products'));
 
     querySnapshot.forEach(doc => {
@@ -15,8 +17,10 @@ export const useProductsStore = defineStore('products', () => {
         ...doc.data()
       };
 
-      products.value.push(product);
+      arrProducts.push(product);
     });
+
+    products.value = arrProducts;
   };
 
   return { 
