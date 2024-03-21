@@ -2,7 +2,7 @@
 import { ref, computed, watch, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
 import { useStorage } from '@/use/useStorage';
-import Header from '@/components/Header.vue';
+import Header from '@/components/shared/Header.vue';
 import Banner from '@/components/Banner.vue';
 import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import ProductsSlide from '@/components/ProductsSlide.vue';

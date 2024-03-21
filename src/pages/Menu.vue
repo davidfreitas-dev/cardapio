@@ -2,7 +2,7 @@
 import { ref, watch, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
-import Header from '@/components/Header.vue';
+import Header from '@/components/shared/Header.vue';
 import Input from '@/components/Input.vue';
 import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import ProductCard from '@/components/ProductCard.vue';

@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
-import Header from '@/components/Header.vue';
+import Header from '@/components/shared/Header.vue';
 import Address from '@/components/Address.vue';
 import Text from '@/components/Text.vue';
 import Button from '@/components/shared/Button.vue';

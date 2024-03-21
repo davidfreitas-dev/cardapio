@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
 import { useToast } from '@/use/useToast';
-import Header from '@/components/Header.vue';
+import Header from '@/components/shared/Header.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Input from '@/components/Input.vue';
 import Button from '@/components/shared/Button.vue';
