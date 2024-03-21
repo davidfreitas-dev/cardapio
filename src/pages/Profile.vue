@@ -5,7 +5,7 @@ import { useToast } from '@/use/useToast';
 import Header from '@/components/Header.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Input from '@/components/Input.vue';
-import Button from '@/components/Button.vue';
+import Button from '@/components/shared/Button.vue';
 import Toast from '@/components/Toast.vue';
 
 const user = ref({});
@@ -157,11 +157,9 @@ const { toast, toastData, handleToast } = useToast();
       />
 
       <div class="flex justify-between items-center">
-        <Button
-          text="Salvar Dados"
-          color="primary"
-          @click="handleSave"
-        />
+        <Button :expand="true" @click="handleSave">
+          Salvar Dados
+        </Button>
       </div>
 
       <Toast

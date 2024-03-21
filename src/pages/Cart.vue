@@ -6,7 +6,7 @@ import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Header from '@/components/Header.vue';
 import Address from '@/components/Address.vue';
 import Text from '@/components/Text.vue';
-import Button from '@/components/Button.vue';
+import Button from '@/components/shared/Button.vue';
 import ItemCart from '@/components/ItemCart.vue';
 import Dropdown from '@/components/Dropdown.vue';
 
@@ -102,10 +102,9 @@ const { getStorage } = useStorage();
         </div>
       </div>
 
-      <Button
-        text="Enviar Pedido"
-        class="my-5"
-      />
+      <Button :expand="true" class="my-5">
+        Enviar Pedido
+      </Button>
     </div>
 
     <div

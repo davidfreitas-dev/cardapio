@@ -5,7 +5,7 @@ import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import Text from '@/components/Text.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
-import Button from '@/components/Button.vue';
+import Button from '@/components/shared/Button.vue';
 import QtyControl from '@/components/QtyControl.vue';
 import Checkbox from '@/components/Checkbox.vue';
 
@@ -118,10 +118,9 @@ const { getStorage } = useStorage();
           </strong>
         </div>
 
-        <Button
-          text="Adicionar"
-          @click="addToCart"
-        />
+        <Button :expand="true" @click="addToCart">
+          Adicionar
+        </Button>
       </div>
     </div>
   </BaseLayout>

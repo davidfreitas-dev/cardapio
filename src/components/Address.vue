@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
 import Header from '@/components/Header.vue';
 import Text from '@/components/Text.vue';
-import Button from '@/components/Button.vue';
+import Button from '@/components/shared/Button.vue';
 
 const props = defineProps({
   delivery: {
