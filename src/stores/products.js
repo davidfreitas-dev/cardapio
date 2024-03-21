@@ -17,8 +17,6 @@ export const useProductsStore = defineStore('products', () => {
 
       products.value.push(product);
     });
-
-    console.log('All Products: ', products.value);
   };
 
   return { 

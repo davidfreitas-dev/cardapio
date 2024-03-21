@@ -1,13 +1,13 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { HomeIcon, ListBulletIcon, RectangleStackIcon, ShoppingCartIcon, UserIcon  } from '@heroicons/vue/24/solid';
+import { HomeIcon, MagnifyingGlassIcon, RectangleStackIcon, ShoppingCartIcon, UserIcon  } from '@heroicons/vue/24/solid';
 
 const menu = ref([
-  { name: 'Início', link: '/', active: true },
-  { name: 'Menu', link: '/menu', active: false },
-  { name: 'Pedidos', link: '/orders', active: false },
+  { name: 'Início', link: '/home', active: true },
+  { name: 'Buscar', link: '/search', active: false },
   { name: 'Carrinho', link: '/cart', active: false },
+  { name: 'Pedidos', link: '/orders', active: false },
   { name: 'Perfil', link: '/profile', active: false }
 ]);
 
@@ -15,12 +15,12 @@ const route = useRoute();
 const router = useRouter();
 
 watch(() => route.name, () => {
-  const index = menu.value.findIndex((el) => el.link === `/${route.name}`);
+  const index = menu.value.findIndex((el) => el.link === route.path);
 
   menu.value.forEach(item => {
     item.active = false;
   });
-
+  
   if (index >= 0) {
     menu.value[index].active = true;
   }
@@ -42,8 +42,8 @@ watch(() => route.name, () => {
           class="h-6 w-6"
         />
 
-        <ListBulletIcon
-          v-if="item.name === 'Menu'"
+        <MagnifyingGlassIcon
+          v-if="item.name === 'Buscar'"
           class="h-6 w-6"
         />
 
