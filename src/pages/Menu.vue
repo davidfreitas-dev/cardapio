@@ -2,8 +2,8 @@
 import { ref, watch, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
-import Header from '@/components/shared/Header.vue';
-import Input from '@/components/Input.vue';
+import Heading from '@/components/shared/Heading.vue';
+import Input from '@/components/shared/Input.vue';
 import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
@@ -51,7 +51,7 @@ const handleFilter = (param) => {
 
 <template>
   <BaseLayout>
-    <Header
+    <Heading
       text="Cardápio"
       size="lg"
     />

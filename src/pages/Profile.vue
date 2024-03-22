@@ -2,9 +2,9 @@
 import { ref, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
 import { useToast } from '@/use/useToast';
-import Header from '@/components/shared/Header.vue';
+import Heading from '@/components/shared/Heading.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
-import Input from '@/components/Input.vue';
+import Input from '@/components/shared/Input.vue';
 import Button from '@/components/shared/Button.vue';
 import Toast from '@/components/Toast.vue';
 
@@ -72,14 +72,14 @@ const { toast, toastData, handleToast } = useToast();
 
 <template>
   <BaseLayout>
-    <Header
+    <Heading
       text="Perfil"
       color="primary"
       size="lg"
     />
 
     <div class="flex flex-col gap-5 my-5 pb-20">
-      <Header
+      <Heading
         text="Meus dados"
         size="sm"
       />
@@ -102,7 +102,7 @@ const { toast, toastData, handleToast } = useToast();
         placeholder="Telefone"
       />
 
-      <Header
+      <Heading
         text="Endereço"
         size="sm"
       />

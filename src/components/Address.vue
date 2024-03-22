@@ -3,7 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/solid';
 import { useRouter } from 'vue-router';
 import { useStorage } from '@/use/useStorage';
-import Text from '@/components/Text.vue';
+import Text from '@/components/shared/Text.vue';
 
 const props = defineProps({
   delivery: {

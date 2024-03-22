@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
 import { useStorage } from '@/use/useStorage';
-import Header from '@/components/shared/Header.vue';
+import Heading from '@/components/shared/Heading.vue';
 import Banner from '@/components/Banner.vue';
 import ProductsSlide from '@/components/ProductsSlide.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
@@ -48,14 +48,14 @@ const { getStorage } = useStorage();
 
 <template>
   <BaseLayout>
-    <Header text="Bem-vindo 👋" />
+    <Heading text="Bem-vindo 👋" />
     <Banner />
   </BaseLayout>
 
-  <Header text="Mais pedidos" size="sm" class="pl-5" />
+  <Heading text="Mais pedidos" size="sm" class="pl-5" />
   <ProductsSlide :products="favoriteProducts" slide-id="1" />
 
-  <Header text="Promoções" size="sm" class="pl-5" />
+  <Heading text="Promoções" size="sm" class="pl-5" />
   <ProductsSlide :products="promoProducts" slide-id="2" />
 
   <div class="pb-20" />

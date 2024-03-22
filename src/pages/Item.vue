@@ -3,11 +3,11 @@ import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
-import Text from '@/components/Text.vue';
+import Text from '@/components/shared/Text.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Button from '@/components/shared/Button.vue';
-import QtyControl from '@/components/QtyControl.vue';
-import Checkbox from '@/components/Checkbox.vue';
+import QtyControl from '@/components/shared/QtyControl.vue';
+import Checkbox from '@/components/shared/Checkbox.vue';
 
 const router = useRouter();
 const cartStore = useCartStore();

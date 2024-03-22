@@ -3,8 +3,8 @@ import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import { useStorage } from '@/use/useStorage';
-import Text from '@/components/Text.vue';
-import QtyControl from '@/components/QtyControl.vue';
+import Text from '@/components/shared/Text.vue';
+import QtyControl from '@/components/shared/QtyControl.vue';
 
 const emit = defineEmits(['onRemoveItem']);
 

@@ -64,7 +64,7 @@ watch(() => route.name, () => {
 
         <div v-if="item.name === 'Carrinho'" class="relative icon-container">
           <ShoppingCartIcon class="h-6 w-6" />
-          <span v-if="cartStore.totalItems" class="absolute -top-1 -right-3 bg-green-600 text-white rounded-full px-1.5 py-0.5 text-xs">
+          <span v-if="cartStore.totalItems" class="absolute -top-1 -right-3 bg-green-600 text-white rounded-full px-[6px] py-[1px] text-xs">
             {{ cartStore.totalItems }}
           </span>
         </div>

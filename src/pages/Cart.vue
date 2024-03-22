@@ -3,9 +3,9 @@ import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
-import Header from '@/components/shared/Header.vue';
+import Heading from '@/components/shared/Heading.vue';
 import Address from '@/components/Address.vue';
-import Text from '@/components/Text.vue';
+import Text from '@/components/shared/Text.vue';
 import Button from '@/components/shared/Button.vue';
 import ItemCart from '@/components/ItemCart.vue';
 import Dropdown from '@/components/Dropdown.vue';
@@ -40,7 +40,7 @@ const { getStorage } = useStorage();
 <template>
   <BaseLayout>
     <div class="flex justify-between items-center">
-      <Header
+      <Heading
         text="Carrinho"
         color="primary"
         size="lg"

@@ -1,10 +1,21 @@
 <template>
   <div class="dots">
-    <span class="dot-1" />
-    <span class="dot-2" />
-    <span class="dot-3" />
+    <span :class="['dot-1', { 'bg-primary': colorful }]" />
+    <span :class="['dot-2', { 'bg-primary': colorful }]" />
+    <span :class="['dot-3', { 'bg-primary': colorful }]" />
   </div>
 </template>
+
+<script setup>
+import { defineProps } from 'vue';
+
+const props = defineProps({
+  colorful: {
+    type: Boolean,
+    default: false
+  }
+});
+</script>
 
 <style scoped>
 .dots {
