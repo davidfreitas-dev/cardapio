@@ -2,6 +2,8 @@ import { ref, watch, computed } from 'vue';
 import { defineStore } from 'pinia';
 import { useStorage } from '@/use/useStorage';
 
+const { getStorage, setStorage } = useStorage();
+
 export const useCartStore = defineStore('cart', () => {
   const cart = ref({
     products: [],
@@ -32,8 +34,6 @@ export const useCartStore = defineStore('cart', () => {
 
     return cart.value.totalItems;
   });
-
-  const { getStorage, setStorage } = useStorage();
 
   if (getStorage('cart')) {
     cart.value = getStorage('cart');

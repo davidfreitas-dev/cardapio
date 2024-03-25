@@ -1,19 +1,22 @@
 import { ref, watch } from 'vue';
 import { defineStore } from 'pinia';
+import { useStorage } from '@/use/useStorage'; 
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/services/firebase-firestore';
+
+const { getStorage, setStorage } = useStorage();
 
 export const useProductsStore = defineStore('products', () => {
   const products = ref([]);
 
-  if (localStorage.getItem('cardapio.products')) {
-    products.value = JSON.parse(localStorage.getItem('cardapio.products'));
+  if (getStorage('products')) {
+    products.value = getStorage('products');
   }
 
   watch(
     products,
     newProducts => {
-      localStorage.setItem('cardapio.products', JSON.stringify(newProducts));
+      setStorage('products', newProducts);
     },
     { deep: true }
   );
