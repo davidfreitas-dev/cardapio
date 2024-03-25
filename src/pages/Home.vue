@@ -52,10 +52,18 @@ const { getStorage } = useStorage();
     <Banner />
   </BaseLayout>
 
-  <Heading text="Mais pedidos" size="sm" class="pl-5" />
+  <Heading
+    text="Mais pedidos"
+    size="sm"
+    class="pl-5"
+  />
   <ProductsSlide :products="favoriteProducts" slide-id="1" />
 
-  <Heading text="Promoções" size="sm" class="pl-5" />
+  <Heading
+    text="Promoções"
+    size="sm"
+    class="pl-5"
+  />
   <ProductsSlide :products="promoProducts" slide-id="2" />
 
   <div class="pb-20" />
