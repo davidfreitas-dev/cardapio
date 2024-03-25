@@ -1,34 +1,29 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import { TransitionRoot } from '@headlessui/vue';
 
-const props = defineProps({
-  toastData: {
-    type: Object,
-    default: () => {}
-  }
-});
+const type = ref('');
+const message = ref('');
+const interval = ref(2500);
+const isVisible = ref(false);
 
-const isShowing = ref(false);
+const showToast = (status, msg, duration) => {
+  type.value = status;
+  message.value = msg;
+  interval.value = duration;
+  isVisible.value = true;
 
-const showToast = () => {
-  isShowing.value = true;
+  setTimeout(() => {
+    isVisible.value = false;
+  }, interval.value);
 };
-
-watch(isShowing, (newIsShowing) => {
-  if (newIsShowing) {
-    setTimeout(() => {
-      isShowing.value = false;
-    }, 2500);
-  }
-});
 
 defineExpose({showToast});
 </script>    
 
 <template>
   <TransitionRoot
-    :show="isShowing"
+    :show="isVisible"
     enter="transition-opacity duration-75"
     enter-from="opacity-0"
     enter-to="opacity-100"
@@ -41,12 +36,12 @@ defineExpose({showToast});
       role="alert"
       class="toast"
       :class="{ 
-        'bg-accent text-primary': props.toastData.type === 'success', 
-        'bg-red-400 text-white': props.toastData.type === 'error' 
+        'bg-accent text-primary': type === 'success', 
+        'bg-red-400 text-white': type === 'error' 
       }"
     >
       <div class="toast-content">
-        {{ props.toastData.message }}
+        {{ message }}
       </div>
     </div>
   </TransitionRoot>

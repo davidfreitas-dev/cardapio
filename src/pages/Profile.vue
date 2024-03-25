@@ -1,12 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
-import { useToast } from '@/use/useToast';
 import Heading from '@/components/shared/Heading.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Input from '@/components/shared/Input.vue';
 import Button from '@/components/shared/Button.vue';
-import Toast from '@/components/Toast.vue';
 
 const user = ref({});
 
@@ -42,16 +40,16 @@ const getByCEP = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.erro) {
-          handleToast('error', 'CEP não encontrado');
+          console.log('error', 'CEP não encontrado');
         } 
                 
         address.value = data.erro ? {} : data;
       })
       .catch((error) => {
-        handleToast('error', 'Erro ao buscar CEP:', error);
+        console.log('error', 'Erro ao buscar CEP:', error);
       });
   } else {
-    handleToast('error', 'O CEP deve conter 8 dígitos numéricos');
+    console.log('error', 'O CEP deve conter 8 dígitos numéricos');
   }
 };
 
@@ -63,11 +61,10 @@ onMounted(() => {
 const handleSave = async () => {
   setStorage('user', user.value);
   setStorage('address', address.value);
-  handleToast('success', 'Informações salvas com sucesso!');
+  console.log('success', 'Informações salvas com sucesso!');
 };
 
 const { setStorage, getStorage } = useStorage();
-const { toast, toastData, handleToast } = useToast();
 </script>
 
 <template>
@@ -161,11 +158,6 @@ const { toast, toastData, handleToast } = useToast();
           Salvar Dados
         </Button>
       </div>
-
-      <Toast
-        ref="toast"
-        :toast-data="toastData"
-      />
     </div>
   </BaseLayout>
 </template>
