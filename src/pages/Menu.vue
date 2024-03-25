@@ -65,7 +65,7 @@ const handleFilter = (param) => {
     />
   </BaseLayout>
 
-  <CategoriesSlide @click-tabs="handleFilter" />
+  <CategoriesSlide @click-slide="handleFilter" />
   
   <BaseLayout>
     <ItemsSkeleton v-if="isLoading" />

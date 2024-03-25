@@ -1,57 +1,69 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useCategoriesStore } from '../stores/categories';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useCategoriesStore } from '@/stores/categories';
 
-const tabsContainer = ref(null);
+const categoriesStore = useCategoriesStore();
+const categories = ref([]);
+const isLoading = ref(true);
+const slidesContainer = ref(null);
 
 const setDragListeners = () => {
-  tabsContainer.value = document.querySelector('.tabs-container');
-  tabsContainer.value.addEventListener('mousedown', setDrag);
-  tabsContainer.value.addEventListener('touchstart', setDrag);
-  tabsContainer.value.addEventListener('mousemove', dragging);
-  tabsContainer.value.addEventListener('touchmove', dragging);
+  slidesContainer.value = document.querySelector('.slide-container');
+  slidesContainer.value.addEventListener('mousedown', setDrag);
+  slidesContainer.value.addEventListener('touchstart', setDrag);
+  slidesContainer.value.addEventListener('mousemove', dragging);
+  slidesContainer.value.addEventListener('touchmove', dragging);
   document.addEventListener('mouseup', dragStop);
   document.addEventListener('touchend', dragStop);  
 };
 
-const categoriesStore = useCategoriesStore();
-const tabs = ref([]);
-const isLoading = ref(true);
+const removeDragListeners = () => {
+  slidesContainer.value.removeEventListener('mousedown', setDrag);
+  slidesContainer.value.removeEventListener('touchstart', setDrag);
+  slidesContainer.value.removeEventListener('mousemove', dragging);
+  slidesContainer.value.removeEventListener('touchmove', dragging);
+  document.removeEventListener('mouseup', dragStop);
+  document.removeEventListener('touchend', dragStop);
+};
 
 onMounted(async () => {
   await categoriesStore.getCategories();
-  tabs.value = categoriesStore.categories;
+  categories.value = categoriesStore.categories;
   isLoading.value = false;
   setDragListeners();
 });
 
-const centerActiveTab = (activeTab) => {
-  const containerWidth = tabsContainer.value.clientWidth;
-  const tab = document.getElementById(activeTab.id);
-  const tabWidth = tab.clientWidth;
-  const tabLeft = tab.offsetLeft;
-  const scrollLeft = tabLeft - containerWidth / 2 + tabWidth / 2;
+onUnmounted(() => {
+  removeDragListeners();
+});
 
-  tabsContainer.value.scrollTo({
+const centerActiveSlide = (activeSlide) => {
+  const slideContainerWidth = slidesContainer.value.clientWidth;
+  const slide = document.getElementById(activeSlide.id);
+  const slideWidth = slide.clientWidth;
+  const slideLeft = slide.offsetLeft;
+  const scrollLeft = slideLeft - slideContainerWidth / 2 + slideWidth / 2;
+
+  slidesContainer.value.scrollTo({
     left: scrollLeft,
     behavior: 'smooth',
   });
 };
 
-const emit = defineEmits(['clickTabs']);
+const emit = defineEmits(['clickSlide']);
 
-const clickTab = (i) => {
-  const tab = tabs.value[i];
+const clickSlide = (i) => {
+  const category = categories.value[i];
 
-  tabs.value.forEach(item => {
+  categories.value.forEach(item => {
     item.active = false;
   });
 
-  tab.active = true;
+  category.active = true;
 
-  centerActiveTab(tab);
+  centerActiveSlide(category);
 
-  emit('clickTabs', tab.id);
+  emit('clickSlide', category.id);
 };
 
 const isDragging = ref(false);
@@ -77,13 +89,13 @@ const dragging = (e) => {
     touchStartX.value = touchEndX;
   }
 
-  tabsContainer.value.classList.add('dragging');
-  tabsContainer.value.scrollLeft -= movementX;
+  slidesContainer.value.classList.add('dragging');
+  slidesContainer.value.scrollLeft -= movementX;
 };
 
 const dragStop = () => {
   isDragging.value = false;
-  tabsContainer.value.classList.remove('dragging');
+  slidesContainer.value.classList.remove('dragging');
 };
 
 const iosPlatform = computed(() => {
@@ -93,19 +105,15 @@ const iosPlatform = computed(() => {
 
 <template>
   <div class="wrapper">
-    <ul
-      class="tabs-container"
-      :class="{ 'ios-padding': iosPlatform }"
-    >
+    <ul :class="['slide-container', { 'ios-padding': iosPlatform }]">
       <li
-        v-for="(tab, index) in tabs"
+        v-for="(category, index) in categories"
         :key="index"
-        :id="tab.id"
-        :class="{ 'active': tab.active }"
-        class="tab"
-        @click="clickTab(index)"
+        :id="category.id"
+        :class="['slide', { 'active': category.active }]"
+        @click="clickSlide(index)"
       >
-        {{ tab.description }}
+        {{ category.description }}
       </li>
     </ul>
   </div>
@@ -119,7 +127,7 @@ const iosPlatform = computed(() => {
   margin: 1rem 0;
 }
 
-.wrapper .tabs-container {
+.wrapper .slide-container {
   display: flex;
   gap: 8px;
   list-style: none;
@@ -127,12 +135,12 @@ const iosPlatform = computed(() => {
   scroll-behavior: smooth;
 }
 
-.tabs-container.dragging {
+.slide-container.dragging {
   scroll-behavior: auto;
   cursor: grab;
 }
 
-.tabs-container .tab {
+.slide-container .slide {
   font-size: .85rem;
   white-space: nowrap;
   cursor: pointer;
@@ -145,24 +153,24 @@ const iosPlatform = computed(() => {
   transition-duration: 150ms;
 }
 
-.tabs-container .tab:hover{
+.slide-container .slide:hover{
   background: #eaeaea;
 }
 
-.tabs-container .tab:first-child{
+.slide-container .slide:first-child{
   margin-left: 1.25rem;
 }
 
-.tabs-container .tab:last-child{
+.slide-container .slide:last-child{
   margin-right: 1.25rem;
 }
 
-.tabs-container.dragging .tab {
+.slide-container.dragging .slide {
   user-select: none;
   pointer-events: none;
 }
 
-.tabs-container .tab.active {
+.slide-container .slide.active {
   color: #fff;
   background: #307a59;
   border-color: transparent;
