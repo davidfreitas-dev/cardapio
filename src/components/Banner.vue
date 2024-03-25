@@ -19,6 +19,6 @@
       </button>
     </div>
 
-    <div class="bg-[url('@/assets/img/pizza.png')] bg-cover bg-no-repeat bg-center w-2/5" />
+    <div class="bg-[url('@/assets/img/banners/banner-1.png')] bg-cover bg-no-repeat bg-center w-2/5" />
   </div>
 </template>
