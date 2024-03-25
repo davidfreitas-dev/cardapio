@@ -8,7 +8,7 @@ const isLoading = ref(true);
 const slidesContainer = ref(null);
 
 const setDragListeners = () => {
-  slidesContainer.value = document.querySelector('.slide-container');
+  slidesContainer.value = document.querySelector('.slides-container');
   slidesContainer.value.addEventListener('mousedown', setDrag);
   slidesContainer.value.addEventListener('touchstart', setDrag);
   slidesContainer.value.addEventListener('mousemove', dragging);
@@ -38,11 +38,11 @@ onUnmounted(() => {
 });
 
 const centerActiveSlide = (activeSlide) => {
-  const slideContainerWidth = slidesContainer.value.clientWidth;
+  const slidesContainerWidth = slidesContainer.value.clientWidth;
   const slide = document.getElementById(activeSlide.id);
   const slideWidth = slide.clientWidth;
   const slideLeft = slide.offsetLeft;
-  const scrollLeft = slideLeft - slideContainerWidth / 2 + slideWidth / 2;
+  const scrollLeft = slideLeft - slidesContainerWidth / 2 + slideWidth / 2;
 
   slidesContainer.value.scrollTo({
     left: scrollLeft,
@@ -105,7 +105,7 @@ const iosPlatform = computed(() => {
 
 <template>
   <div class="wrapper">
-    <ul :class="['slide-container', { 'ios-padding': iosPlatform }]">
+    <ul :class="['slides-container', { 'ios-padding': iosPlatform }]">
       <li
         v-for="(category, index) in categories"
         :key="index"
@@ -127,7 +127,7 @@ const iosPlatform = computed(() => {
   margin: 1rem 0;
 }
 
-.wrapper .slide-container {
+.wrapper .slides-container {
   display: flex;
   gap: 8px;
   list-style: none;
@@ -135,12 +135,12 @@ const iosPlatform = computed(() => {
   scroll-behavior: smooth;
 }
 
-.slide-container.dragging {
+.slides-container.dragging {
   scroll-behavior: auto;
   cursor: grab;
 }
 
-.slide-container .slide {
+.slides-container .slide {
   font-size: .85rem;
   white-space: nowrap;
   cursor: pointer;
@@ -153,24 +153,24 @@ const iosPlatform = computed(() => {
   transition-duration: 150ms;
 }
 
-.slide-container .slide:hover{
+.slides-container .slide:hover{
   background: #eaeaea;
 }
 
-.slide-container .slide:first-child{
+.slides-container .slide:first-child{
   margin-left: 1.25rem;
 }
 
-.slide-container .slide:last-child{
+.slides-container .slide:last-child{
   margin-right: 1.25rem;
 }
 
-.slide-container.dragging .slide {
+.slides-container.dragging .slide {
   user-select: none;
   pointer-events: none;
 }
 
-.slide-container .slide.active {
+.slides-container .slide.active {
   color: #fff;
   background: #307a59;
   border-color: transparent;

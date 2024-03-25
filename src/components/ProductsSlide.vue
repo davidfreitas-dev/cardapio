@@ -13,23 +13,23 @@ const props = defineProps({
   }
 });
 
-const slideContainer = ref(null);
+const slidesContainer = ref(null);
 
 const setDragListeners = () => {
-  slideContainer.value = document.querySelector(`.slide-${props.slideId}`);
-  slideContainer.value.addEventListener('mousedown', setDrag);
-  slideContainer.value.addEventListener('touchstart', setDrag);
-  slideContainer.value.addEventListener('mousemove', dragging);
-  slideContainer.value.addEventListener('touchmove', dragging);
+  slidesContainer.value = document.querySelector(`.slide-${props.slideId}`);
+  slidesContainer.value.addEventListener('mousedown', setDrag);
+  slidesContainer.value.addEventListener('touchstart', setDrag);
+  slidesContainer.value.addEventListener('mousemove', dragging);
+  slidesContainer.value.addEventListener('touchmove', dragging);
   document.addEventListener('mouseup', dragStop);
   document.addEventListener('touchend', dragStop);  
 };
 
 const removeDragListeners = () => {
-  slideContainer.value.removeEventListener('mousedown', setDrag);
-  slideContainer.value.removeEventListener('touchstart', setDrag);
-  slideContainer.value.removeEventListener('mousemove', dragging);
-  slideContainer.value.removeEventListener('touchmove', dragging);
+  slidesContainer.value.removeEventListener('mousedown', setDrag);
+  slidesContainer.value.removeEventListener('touchstart', setDrag);
+  slidesContainer.value.removeEventListener('mousemove', dragging);
+  slidesContainer.value.removeEventListener('touchmove', dragging);
   document.removeEventListener('mouseup', dragStop);
   document.removeEventListener('touchend', dragStop);
 };
@@ -43,13 +43,13 @@ onUnmounted(() => {
 });
 
 const centerActiveSlide = (activeSlide) => {
-  const slideWidth = slideContainer.value.clientWidth;
+  const slideWidth = slidesContainer.value.clientWidth;
   const productContainer = document.getElementById(activeSlide.id);
   const productContainerWidth = productContainer.clientWidth;
   const productContainerLeft = productContainer.offsetLeft;
   const scrollLeft = productContainerLeft - slideWidth / 2 + productContainerWidth / 2;
 
-  slideContainer.value.scrollTo({
+  slidesContainer.value.scrollTo({
     left: scrollLeft,
     behavior: 'smooth',
   });
@@ -94,13 +94,13 @@ const dragging = (e) => {
     touchStartX.value = touchEndX;
   }
 
-  slideContainer.value.classList.add('dragging');
-  slideContainer.value.scrollLeft -= movementX;
+  slidesContainer.value.classList.add('dragging');
+  slidesContainer.value.scrollLeft -= movementX;
 };
 
 const dragStop = () => {
   isDragging.value = false;
-  slideContainer.value.classList.remove('dragging');
+  slidesContainer.value.classList.remove('dragging');
 };
 
 const iosPlatform = computed(() => {
@@ -110,7 +110,7 @@ const iosPlatform = computed(() => {
 
 <template>
   <div class="wrapper">
-    <ul :class="['products-container', `slide-${slideId}`, { 'ios-padding': iosPlatform }]">
+    <ul :class="['slides-container', `slide-${slideId}`, { 'ios-padding': iosPlatform }]">
       <ProductCard
         v-for="(product, index) in products"
         :key="index"
@@ -131,7 +131,7 @@ const iosPlatform = computed(() => {
   margin: 1rem 0;
 }
 
-.wrapper .products-container {
+.wrapper .slides-container {
   display: flex;
   gap: 12px;
   list-style: none;
@@ -139,24 +139,24 @@ const iosPlatform = computed(() => {
   scroll-behavior: smooth;
 }
 
-.products-container.dragging {
+.slides-container.dragging {
   scroll-behavior: auto;
   cursor: grab;
 }
 
-.products-container .product {
+.slides-container .product {
   width: 100%;
 }
 
-.products-container .product:first-child{
+.slides-container .product:first-child{
   margin-left: 1.25rem;
 }
 
-.products-container .product:last-child{
+.slides-container .product:last-child{
   margin-right: 1.25rem;
 }
 
-.products-container.dragging .product {
+.slides-container.dragging .product {
   user-select: none;
   pointer-events: none;
 }
