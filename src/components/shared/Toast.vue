@@ -52,6 +52,6 @@ defineExpose({showToast});
   @apply fixed top-5 -translate-x-1/2 left-1/2 flex items-center p-4 mb-4 w-[90%] rounded-lg shadow-md
 }
 .toast-content {
-  @apply ml-3 font-normal text-sm
+  @apply ml-3 font-semibold text-sm
 }
 </style>
