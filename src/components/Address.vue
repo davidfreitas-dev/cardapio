@@ -22,7 +22,7 @@ onMounted(() => {
 });
 
 const address = computed(() => {
-  const deliveryAddress = userAddress.value 
+  const deliveryAddress = userAddress.value && userAddress.value.logradouro && userAddress.value.localidade && address.value.cep
     ? `${userAddress.value.logradouro}, ${userAddress.value.numero} - ${userAddress.value.bairro}` 
     : 'Você ainda não adicionou um endereço';
 
