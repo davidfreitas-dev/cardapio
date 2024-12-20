@@ -44,13 +44,9 @@ const onSlideChange = () => {
   padding-bottom: 2rem;
 }
 
-/* Adiciona margem apenas ao primeiro slide */
-.swiper-slide:first-child {
-  margin-left: 1rem;
-}
-
 /* Garantir o padding ao final do contêiner */
 .swiper {
-  padding-right: 2.25rem; /* Espaço extra à direita */
+  padding-left: 1rem; /* Espaço extra à esquerda */
+  padding-right: 1.25rem; /* Espaço extra à direita */
 }
 </style>
