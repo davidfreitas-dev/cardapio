@@ -8,10 +8,6 @@ const props = defineProps({
   item: {
     type: Object,
     default: () => {}
-  },
-  slide: {
-    type: Boolean,
-    default: false
   }
 });
 
@@ -49,18 +45,15 @@ const { setStorage } = useStorage();
 </script>
 
 <template>
-  <div
-    class="card-container flex flex-col gap-2 w-full shadow-xl rounded-xl cursor-pointer p-3"
-    :class="{'min-w-[40%] max-w-[40%] mb-8': slide}"
-  >
+  <div class="card-container flex flex-col gap-2 w-full shadow-xl rounded-xl cursor-pointer p-3 bg-white">
     <img
+      class="card-img w-full h-auto rounded-lg"
       :src="getImageUrl(item)"
       :alt="`Imagem de ${item.description}`"
-      class="card-img w-full h-auto rounded-lg"
       @click="handleSelectItem"
     >
     <div class="card-content flex flex-col w-full">
-      <div class="card-title font-bold text-sm text-font h-[40px]">
+      <div class="card-title font-bold text-font h-[40px]">
         {{ item.name }}
       </div>
 
