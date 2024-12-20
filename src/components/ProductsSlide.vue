@@ -44,9 +44,8 @@ const onSlideChange = () => {
   padding-bottom: 2rem;
 }
 
-/* Garantir o padding ao final do contêiner */
+/* Garantir o padding ao início e final do contêiner */
 .swiper {
-  padding-left: 1rem; /* Espaço extra à esquerda */
-  padding-right: 1.25rem; /* Espaço extra à direita */
+  padding: 0 1.2rem;
 }
 </style>

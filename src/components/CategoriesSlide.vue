@@ -73,7 +73,7 @@ const onSlideChange = () => {
   padding: 8px 16px;
   border-radius: 30px;
   border: 1px solid #eaeaea;
-  background-color: #fafafa;
+  background-color: #ebf2ef;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }

@@ -60,7 +60,7 @@ const handleFilter = (param) => {
       v-model="search"
       v-debounce:500ms="handleSearch"
       type="search"
-      class="border my-5"
+      class="my-5"
       placeholder="O que você esta procurando?"
     />
   </BaseLayout>

@@ -27,7 +27,7 @@ const updateValue = (event) => {
 </script>
 
 <template>
-  <div class="flex items-center w-full h-[52px] rounded-lg px-4 text-secondary bg-light ring-primary focus-within:ring-2">
+  <div class="flex items-center w-full h-[52px] border rounded-lg px-4 text-secondary bg-white ring-primary focus-within:ring-2">
     <MagnifyingGlassIcon
       v-if="type === 'search'"
       class="w-5 h-5"

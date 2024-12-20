@@ -63,7 +63,7 @@ const { getStorage } = useStorage();
   />
     
   <BaseLayout>
-    <div class="flex flex-col gap-2 mt-64">
+    <div class="flex flex-col gap-2 mt-64 overflow-y-auto pb-[100px]">
       <h1 class="font-bold font-sans text-2xl text-font">
         {{ item.name }}
       </h1>
