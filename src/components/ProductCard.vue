@@ -53,12 +53,12 @@ const { setStorage } = useStorage();
       @click="handleSelectItem"
     >
     <div class="card-content flex flex-col w-full">
-      <div class="card-title font-bold text-font h-[40px]">
+      <div class="card-title leading-5 truncate tracking-tighter font-bold text-font">
         {{ item.name }}
       </div>
 
-      <div class="card-info flex items-center justify-between w-full mt-1">
-        <strong class="item-price font-bold text-base text-primary">
+      <div class="card-info flex items-center justify-between w-full mt-2">
+        <strong class="item-price tracking-tighter font-extrabold text-base text-primary">
           {{ $filters.currencyBRL(item.price) }}
         </strong>
         

@@ -1,7 +1,7 @@
 <template>
   <swiper
-    :slides-per-view="2"
-    :space-between="10"
+    :slides-per-view="'auto'"
+    :space-between="12"
     @swiper="onSwiper"
     @slide-change="onSlideChange"
   >
@@ -42,10 +42,12 @@ const onSlideChange = () => {
 /* Estiliza os slides */
 .swiper-slide {
   padding-bottom: 2rem;
+  width: 45%;
 }
 
 /* Garantir o padding ao início e final do contêiner */
 .swiper {
-  padding: 0 1.2rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 </style>
