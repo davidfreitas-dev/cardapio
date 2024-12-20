@@ -60,7 +60,12 @@ const formatItemData = (item) => {
 
 const addressConfigured = computed(() => {
   const address = getStorage('address');
-  return address && address.logradouro && address.localidade && address.cep;
+  return address 
+        && address.logradouro 
+        && address.numero  
+        && address.bairro 
+        && address.localidade 
+        && address.cep;
 });
 
 const toastRef = ref(null);
