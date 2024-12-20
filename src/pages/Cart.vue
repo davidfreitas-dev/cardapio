@@ -39,22 +39,29 @@ const formatItemData = (item) => {
   itemDetails += `Quantidade: ${item.quantity}\n`;
 
   // Adicionando adicionais ao item
-  item.additional.forEach((add) => {
-    if (add.selected) {
-      itemDetails += `- ${add.name} (R$ ${add.price.toFixed(2)})\n`;
-    }
-  });
+  const selectedAdditions = item.additional.filter((add) => add.selected);
+
+  if (selectedAdditions.length > 0) {
+    itemDetails += 'Adicionais:\n';
+    selectedAdditions.forEach((add) => {
+      itemDetails += `• ${add.name} (R$ ${add.price.toFixed(2)})\n`;
+    });
+  }
 
   // Calculando o total do item (preço * quantidade + adicionais selecionados)
-  const additionalTotal = item.additional
-    .filter(add => add.selected)
-    .reduce((total, add) => total + add.price, 0);
-
+  const additionalTotal = selectedAdditions.reduce((total, add) => total + add.price, 0);
   const totalItem = (item.price + additionalTotal) * item.quantity;
+
   itemDetails += `Total do item: R$ ${totalItem.toFixed(2)}\n`;
 
   return itemDetails;
 };
+
+const addressConfigured = computed(() => {
+  // Supondo que o endereço esteja armazenado no localStorage
+  const address = getStorage('address');
+  return address && address.logradouro && address.localidade && address.cep;
+});
 
 // Função para montar e enviar o pedido via WhatsApp
 const placeOrder = () => {
@@ -63,6 +70,7 @@ const placeOrder = () => {
   let orderText = 'Pedido:\n\n';
   let orderTotal = 0;
 
+  // Adicionando itens ao pedido
   cartItems.forEach(item => {
     orderText += formatItemData(item);
     orderText += '\n';
@@ -75,10 +83,34 @@ const placeOrder = () => {
 
     orderTotal += totalItem;
   });
-  
-  orderText += `\nTotal do Pedido: R$ ${orderTotal.toFixed(2)}`;
 
-  const phoneNumber = '5511999999999'; // Número de telefone do remetente
+  // Adicionando taxa de entrega
+  if (deliveryType.value === 'Entrega') {
+    orderText += `Taxa de Entrega: R$ ${deliveryPrice.value.toFixed(2)}\n\n`;
+    orderTotal += deliveryPrice.value;
+  }
+
+  // Adicionando informações de entrega
+  const address = getStorage('address');
+  const user = getStorage('user');
+
+  if (!user || !address) {
+    alert('Por favor, configure as informações do cliente e do endereço antes de enviar o pedido.');
+    return;
+  }
+
+  orderText += 'Informações de entrega:\n';
+  orderText += `Cliente: ${user.firstName} ${user.lastName}\n`;
+  orderText += `Telefone: ${user.phone}\n`;
+  orderText += `Rua: ${address.logradouro}, ${address.numero} - ${address.complemento || ''}\n`;
+  orderText += `Bairro: ${address.bairro}\n`;
+  orderText += `Cidade: ${address.localidade} - ${address.uf}\n`;
+  orderText += `CEP: ${address.cep}\n\n`;
+
+  // Adicionando total do pedido
+  orderText += `Total do Pedido: R$ ${orderTotal.toFixed(2)}`;
+
+  const phoneNumber = import.meta.env.VITE_WHATSAPP_PHONE_NUMBER; // Número de telefone do destinatário
 
   const formattedText = encodeURIComponent(orderText);
   const whatsappLink = `https://api.whatsapp.com/send?1=pt_BR&phone=${phoneNumber}&text=${formattedText}`;
@@ -163,6 +195,7 @@ const { getStorage } = useStorage();
       <Button
         :expand="true"
         class="my-5"
+        :disabled="deliveryType === 'Entrega' && !addressConfigured"
         @click="placeOrder"
       >
         Enviar Pedido
