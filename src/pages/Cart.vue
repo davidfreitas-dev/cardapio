@@ -34,6 +34,58 @@ const removeItem = (item) => {
   }
 };
 
+const formatItemData = (item) => {
+  let itemDetails = `${item.name} (R$ ${item.price.toFixed(2)})\n`;
+  itemDetails += `Quantidade: ${item.quantity}\n`;
+
+  // Adicionando adicionais ao item
+  item.additional.forEach((add) => {
+    if (add.selected) {
+      itemDetails += `- ${add.name} (R$ ${add.price.toFixed(2)})\n`;
+    }
+  });
+
+  // Calculando o total do item (preço * quantidade + adicionais selecionados)
+  const additionalTotal = item.additional
+    .filter(add => add.selected)
+    .reduce((total, add) => total + add.price, 0);
+
+  const totalItem = (item.price + additionalTotal) * item.quantity;
+  itemDetails += `Total do item: R$ ${totalItem.toFixed(2)}\n`;
+
+  return itemDetails;
+};
+
+// Função para montar e enviar o pedido via WhatsApp
+const placeOrder = () => {
+  const cartItems = cartStore.cart.products;
+
+  let orderText = 'Pedido:\n\n';
+  let orderTotal = 0;
+
+  cartItems.forEach(item => {
+    orderText += formatItemData(item);
+    orderText += '\n';
+
+    const additionalTotal = item.additional
+      .filter(add => add.selected)
+      .reduce((total, add) => total + add.price, 0);
+
+    const totalItem = (item.price + additionalTotal) * item.quantity;
+
+    orderTotal += totalItem;
+  });
+  
+  orderText += `\nTotal do Pedido: R$ ${orderTotal.toFixed(2)}`;
+
+  const phoneNumber = '5511999999999'; // Número de telefone do remetente
+
+  const formattedText = encodeURIComponent(orderText);
+  const whatsappLink = `https://api.whatsapp.com/send?1=pt_BR&phone=${phoneNumber}&text=${formattedText}`;
+
+  window.open(whatsappLink, '_blank');
+};
+
 const { getStorage } = useStorage();
 </script>
 
@@ -108,7 +160,11 @@ const { getStorage } = useStorage();
         </div>
       </div>
 
-      <Button :expand="true" class="my-5">
+      <Button
+        :expand="true"
+        class="my-5"
+        @click="placeOrder"
+      >
         Enviar Pedido
       </Button>
     </div>
