@@ -9,6 +9,7 @@ import Text from '@/components/shared/Text.vue';
 import Button from '@/components/shared/Button.vue';
 import ItemCart from '@/components/ItemCart.vue';
 import Dropdown from '@/components/Dropdown.vue';
+import Toast from '@/components/shared/Toast.vue';
 
 const deliveryType = ref('');
 
@@ -58,10 +59,11 @@ const formatItemData = (item) => {
 };
 
 const addressConfigured = computed(() => {
-  // Supondo que o endereço esteja armazenado no localStorage
   const address = getStorage('address');
   return address && address.logradouro && address.localidade && address.cep;
 });
+
+const toastRef = ref(null);
 
 // Função para montar e enviar o pedido via WhatsApp
 const placeOrder = () => {
@@ -84,28 +86,43 @@ const placeOrder = () => {
     orderTotal += totalItem;
   });
 
-  // Adicionando taxa de entrega
-  if (deliveryType.value === 'Entrega') {
-    orderText += `Taxa de Entrega: R$ ${deliveryPrice.value.toFixed(2)}\n\n`;
-    orderTotal += deliveryPrice.value;
-  }
-
-  // Adicionando informações de entrega
-  const address = getStorage('address');
+  // Validação de dados com base no tipo de entrega
   const user = getStorage('user');
+  const address = getStorage('address');
 
-  if (!user || !address) {
-    alert('Por favor, configure as informações do cliente e do endereço antes de enviar o pedido.');
+  if (!user) {
+    toastRef.value?.showToast('error', 'Por favor, vá até o menu Perfil e informe os seus dados.');
     return;
   }
 
-  orderText += 'Informações de entrega:\n';
-  orderText += `Cliente: ${user.firstName} ${user.lastName}\n`;
-  orderText += `Telefone: ${user.phone}\n`;
-  orderText += `Rua: ${address.logradouro}, ${address.numero} - ${address.complemento || ''}\n`;
-  orderText += `Bairro: ${address.bairro}\n`;
-  orderText += `Cidade: ${address.localidade} - ${address.uf}\n`;
-  orderText += `CEP: ${address.cep}\n\n`;
+  if (deliveryType.value === 'Entrega') {
+    if (!addressConfigured.value) {
+      toastRef.value?.showToast('error', 'Para a modalidade ENTREGA é necessário informar um endereço.');
+      return;
+    }
+
+    orderText += `Taxa de Entrega: R$ ${deliveryPrice.value.toFixed(2)}\n\n`;
+    orderTotal += deliveryPrice.value;
+
+    // Adicionando informações de entrega
+    orderText += 'Informações de entrega:\n';
+    orderText += `Cliente: ${user.firstName} ${user.lastName}\n`;
+    orderText += `Telefone: ${user.phone}\n`;
+    orderText += `Rua: ${address.logradouro}, ${address.numero} - ${address.complemento || ''}\n`;
+    orderText += `Bairro: ${address.bairro}\n`;
+    orderText += `Cidade: ${address.localidade} - ${address.uf}\n`;
+    orderText += `CEP: ${address.cep}\n\n`;
+  } else if (deliveryType.value === 'Retirada') {
+    if (!user.firstName || !user.lastName || !user.phone) {
+      toastRef.value?.showToast('error', 'Para a modalidade RETIRADA é necessário informar nome, sobrenome e telefone.');
+      return;
+    }
+
+    // Adicionando informações do cliente
+    orderText += 'Informações do cliente:\n';
+    orderText += `Cliente: ${user.firstName} ${user.lastName}\n`;
+    orderText += `Telefone: ${user.phone}\n\n`;
+  }
 
   // Adicionando total do pedido
   orderText += `Total do Pedido: R$ ${orderTotal.toFixed(2)}`;
@@ -195,11 +212,12 @@ const { getStorage } = useStorage();
       <Button
         :expand="true"
         class="my-5"
-        :disabled="deliveryType === 'Entrega' && !addressConfigured"
         @click="placeOrder"
       >
         Enviar Pedido
       </Button>
     </div>
+
+    <Toast ref="toastRef" />
   </BaseLayout>
 </template>

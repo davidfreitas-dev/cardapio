@@ -5,6 +5,7 @@ import Heading from '@/components/shared/Heading.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Input from '@/components/shared/Input.vue';
 import Button from '@/components/shared/Button.vue';
+import Toast from '@/components/shared/Toast.vue';
 
 const user = ref({});
 
@@ -58,10 +59,12 @@ onMounted(() => {
   getAddress();
 });
 
+const toastRef = ref(null);
+
 const handleSave = async () => {
   setStorage('user', user.value);
   setStorage('address', address.value);
-  console.log('success', 'Informações salvas com sucesso!');
+  toastRef.value?.showToast('success', 'Alterações salvas com sucesso!');
 };
 
 const { setStorage, getStorage } = useStorage();
@@ -159,5 +162,7 @@ const { setStorage, getStorage } = useStorage();
         </Button>
       </div>
     </div>
+
+    <Toast ref="toastRef" />
   </BaseLayout>
 </template>
