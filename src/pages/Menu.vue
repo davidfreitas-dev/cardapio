@@ -1,6 +1,5 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
-import { useProductsStore } from '@/stores/products';
 import axios from '@/api/axios';
 import Container from '@/components/shared/Container.vue';
 import Heading from '@/components/shared/Heading.vue';
@@ -10,12 +9,11 @@ import ProductCard from '@/components/ProductCard.vue';
 import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
 import Toast from '@/components/shared/Toast.vue';
 
-const productsStore = useProductsStore();
+const toastRef = ref(null);
 const isLoading = ref(true);
 const categories = ref(null);
-const products = ref([]);
-
-const toastRef = ref(null);
+const products = ref(null);
+const backupProducts = ref(null);
 
 const getCategories = async () => {
   isLoading.value = true;
@@ -31,11 +29,28 @@ const getCategories = async () => {
   isLoading.value = false;
 };
 
-onMounted(async () => {
-  await productsStore.getProducts();
-  products.value = productsStore.products;
-  await getCategories();
+const getProducts = async (categoryId = 0) => {
+  isLoading.value = true;
+
+  try {
+    const response = await axios.get(`/products/category/${categoryId}`);
+    backupProducts.value = response.data.products;
+    products.value = response.data.products;
+  } catch (error) {
+    console.log(error);
+    toastRef.value?.showToast('error', 'Falha ao carregar categorias.');
+  }
+
   isLoading.value = false;
+};
+
+const loadData = async () => {
+  getCategories();
+  getProducts();
+};
+
+onMounted(async () => {
+  await loadData();
 });
 
 const search = ref('');
@@ -47,25 +62,21 @@ watch(search, (newSearch) => {
 });
 
 const handleSearch = () => {
-  const backupProducts = productsStore.products;
-
   if (!search.value) {
-    products.value = backupProducts;
+    products.value = backupProducts.value;
     return;
   }
 
-  products.value = backupProducts.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
+  products.value = backupProducts.value.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
 };
 
 const handleFilter = (param) => {  
-  const backupProducts = productsStore.products;
-
   if (param === 0) {
-    products.value = backupProducts;
+    products.value = backupProducts.value;
     return;
   }
 
-  products.value = backupProducts.filter((product => product.idcategory === param));
+  products.value = backupProducts.value.filter((product => product.idcategory === param));
 };
 </script>
 
@@ -95,13 +106,13 @@ const handleFilter = (param) => {
     <ItemsSkeleton v-if="isLoading" />
 
     <div
-      v-if="!isLoading && products.length"
+      v-if="!isLoading && (products && products.length)"
       class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-20"
     >
       <ProductCard
-        v-for="(item, index) in products"
+        v-for="(product, index) in products"
         :key="index"
-        :item="item"
+        :product="product"
       />
     </div>
 
