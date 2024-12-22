@@ -7,8 +7,8 @@
   >
     <template v-for="(category, index) in categories" :key="index">
       <swiper-slide
-        :class="{'selected': selectedSlide === index}"
         @click="selectSlide(index)"
+        :class="{ 'selected': selectedSlide === index }"
       >
         <div class="slide">
           {{ category.name }}
@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
@@ -30,7 +30,16 @@ const props = defineProps({
   }
 });
 
+const categories = ref([...props.categories]);
+
+onMounted(() => {
+  if (!categories.value.some(category => category.idcategory === 0)) {
+    categories.value.unshift({ idcategory: 0, name: 'Todos' });
+  }
+});
+
 const emit = defineEmits(['clickSlide']);
+
 const selectedSlide = ref(0);
 
 const selectSlide = (index) => {
@@ -41,7 +50,7 @@ const selectSlide = (index) => {
     swiperInstance.slideTo(index);
   });
 
-  emit('clickSlide', props.categories[index].id);
+  emit('clickSlide', categories.value[index].idcategory);
 };
 
 const onSwiper = (swiper) => {
@@ -70,7 +79,7 @@ const onSlideChange = () => {
   padding: 8px 16px;
   border-radius: 12px;
   background-color: #eee;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-timing-function: cubic-bezier(0.4, 0.2, 0.2, 1);
   transition-duration: 150ms;
 }
 
