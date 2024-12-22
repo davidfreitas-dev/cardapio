@@ -63,21 +63,17 @@ watch(search, (newSearch) => {
 
 const handleSearch = () => {
   if (!search.value) {
-    products.value = backupProducts.value;
+    products.value = [...backupProducts.value];
     return;
   }
 
   products.value = backupProducts.value.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
 };
 
-const handleFilter = (param) => {  
-  if (param === 0) {
-    products.value = backupProducts.value;
-    return;
-  }
-
-  products.value = backupProducts.value.filter((product => product.idcategory === param));
+const handleFilter = async (categoryId) => {
+  await getProducts(categoryId);
 };
+
 </script>
 
 <template>

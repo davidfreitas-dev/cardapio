@@ -49,17 +49,13 @@ const additionalSelected = computed(() => {
   return additional.filter((add) => add.selected);
 });
 
-const getImageUrl = (item) => {
-  return new URL(`../assets/img/products/${item.id}.png`, import.meta.url).href;
-};
-
 const { getStorage } = useStorage();
 </script>
 
 <template>
   <div
     class="absolute top-0 left-0 w-full h-60 bg-cover bg-no-repeat bg-center"
-    :style="`background-image: url('${getImageUrl(item)}');`"
+    :style="`background-image: url('${item.image}');`"
   />
     
   <Container>
@@ -84,11 +80,11 @@ const { getStorage } = useStorage();
 
       <span class="border-b border-gray-100 my-3" />
 
-      <h1 class="font-bold  text-lg text-font">
+      <h1 v-if="item.additional" class="font-bold  text-lg text-font">
         Adicionais
       </h1>
 
-      <div class="flex flex-col justify-between items-start my-3">
+      <div v-if="item.additional && item.additional.length" class="flex flex-col justify-between items-start my-3">
         <span
           v-for="(additional, index) in item.additional"
           :key="index"
