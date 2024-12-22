@@ -2,7 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
-import BaseLayout from '@/components/shared/BaseLayout.vue';
+import Container from '@/components/shared/Container.vue';
 import Heading from '@/components/shared/Heading.vue';
 import Address from '@/components/Address.vue';
 import Text from '@/components/shared/Text.vue';
@@ -144,7 +144,7 @@ const { getStorage } = useStorage();
 </script>
 
 <template>
-  <BaseLayout>
+  <Container>
     <div class="flex justify-between items-center">
       <Heading
         text="Sacola"
@@ -224,5 +224,5 @@ const { getStorage } = useStorage();
     </div>
 
     <Toast ref="toastRef" />
-  </BaseLayout>
+  </Container>
 </template>

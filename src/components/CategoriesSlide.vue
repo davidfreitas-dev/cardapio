@@ -11,7 +11,7 @@
         @click="selectSlide(index)"
       >
         <div class="slide">
-          {{ category.description }}
+          {{ category.name }}
         </div>
       </swiper-slide>
     </template>
@@ -19,34 +19,29 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from 'vue';
-import { useCategoriesStore } from '@/stores/categories';
+import { ref, nextTick } from 'vue';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
-const categoriesStore = useCategoriesStore();
-const categories = ref([]);
-const isLoading = ref(true);
-const selectedSlide = ref(0);
-
-onMounted(async () => {
-  await categoriesStore.getCategories();
-  categories.value = categoriesStore.categories;
-  isLoading.value = false;
+const props = defineProps({
+  categories: {
+    type: Array,
+    default: () => ([])
+  }
 });
 
 const emit = defineEmits(['clickSlide']);
+const selectedSlide = ref(0);
 
 const selectSlide = (index) => {
-  selectedSlide.value = index; // Atualiza o slide selecionado
-  
-  // Usando nextTick para garantir que o DOM tenha sido atualizado
+  selectedSlide.value = index;
+
   nextTick(() => {
     const swiperInstance = document.querySelector('.swiper').swiper;
-    swiperInstance.slideTo(index); // Move para o slide clicado
+    swiperInstance.slideTo(index);
   });
 
-  emit('clickSlide', categories.value[index].id);
+  emit('clickSlide', props.categories[index].id);
 };
 
 const onSwiper = (swiper) => {

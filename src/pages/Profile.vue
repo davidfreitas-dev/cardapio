@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useStorage } from '@/use/useStorage';
 import Heading from '@/components/shared/Heading.vue';
-import BaseLayout from '@/components/shared/BaseLayout.vue';
+import Container from '@/components/shared/Container.vue';
 import Input from '@/components/shared/Input.vue';
 import Button from '@/components/shared/Button.vue';
 import Toast from '@/components/shared/Toast.vue';
@@ -71,7 +71,7 @@ const { setStorage, getStorage } = useStorage();
 </script>
 
 <template>
-  <BaseLayout>
+  <Container>
     <Heading
       text="Perfil"
       color="primary"
@@ -164,5 +164,5 @@ const { setStorage, getStorage } = useStorage();
     </div>
 
     <Toast ref="toastRef" />
-  </BaseLayout>
+  </Container>
 </template>

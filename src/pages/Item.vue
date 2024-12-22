@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import Text from '@/components/shared/Text.vue';
-import BaseLayout from '@/components/shared/BaseLayout.vue';
+import Container from '@/components/shared/Container.vue';
 import Button from '@/components/shared/Button.vue';
 import QtyControl from '@/components/shared/QtyControl.vue';
 import Checkbox from '@/components/shared/Checkbox.vue';
@@ -62,7 +62,7 @@ const { getStorage } = useStorage();
     :style="`background-image: url('${getImageUrl(item)}');`"
   />
     
-  <BaseLayout>
+  <Container>
     <div class="flex flex-col gap-2 mt-64 overflow-y-auto pb-[100px]">
       <h1 class="font-bold text-2xl text-font">
         {{ item.name }}
@@ -123,5 +123,5 @@ const { getStorage } = useStorage();
         </Button>
       </div>
     </div>
-  </BaseLayout>
+  </Container>
 </template>

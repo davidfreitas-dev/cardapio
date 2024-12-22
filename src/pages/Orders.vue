@@ -1,10 +1,10 @@
 <script setup>
 import Heading from '@/components/shared/Heading.vue';
-import BaseLayout from '@/components/shared/BaseLayout.vue';
+import Container from '@/components/shared/Container.vue';
 </script>
 
 <template>
-  <BaseLayout>
+  <Container>
     <div class="flex flex-col gap-1.5">
       <Heading
         text="Meus Pedidos"
@@ -18,5 +18,5 @@ import BaseLayout from '@/components/shared/BaseLayout.vue';
         </span>
       </div>
     </div>
-  </BaseLayout>
+  </Container>
 </template>

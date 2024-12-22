@@ -5,7 +5,7 @@ import { useStorage } from '@/use/useStorage';
 import Heading from '@/components/shared/Heading.vue';
 import Banner from '@/components/Banner.vue';
 import ProductsSlide from '@/components/ProductsSlide.vue';
-import BaseLayout from '@/components/shared/BaseLayout.vue';
+import Container from '@/components/shared/Container.vue';
 
 const productsStore = useProductsStore();
 const isLoading = ref(true);
@@ -47,10 +47,10 @@ const { getStorage } = useStorage();
 </script>
 
 <template>
-  <BaseLayout>
+  <Container>
     <Heading text="Bem-vindo 👋" />
     <Banner />
-  </BaseLayout>
+  </Container>
 
   <Heading
     text="Mais pedidos"

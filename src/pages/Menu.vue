@@ -1,20 +1,40 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
-import BaseLayout from '@/components/shared/BaseLayout.vue';
+import axios from '@/api/axios';
+import Container from '@/components/shared/Container.vue';
 import Heading from '@/components/shared/Heading.vue';
 import Input from '@/components/shared/Input.vue';
 import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
+import Toast from '@/components/shared/Toast.vue';
 
 const productsStore = useProductsStore();
 const isLoading = ref(true);
+const categories = ref(null);
 const products = ref([]);
+
+const toastRef = ref(null);
+
+const getCategories = async () => {
+  isLoading.value = true;
+
+  try {
+    const response = await axios.get('/categories');
+    categories.value = response.data;
+  } catch (error) {
+    console.log(error);
+    toastRef.value?.showToast('error', 'Falha ao carregar categorias.');
+  }
+
+  isLoading.value = false;
+};
 
 onMounted(async () => {
   await productsStore.getProducts();
   products.value = productsStore.products;
+  await getCategories();
   isLoading.value = false;
 });
 
@@ -50,7 +70,7 @@ const handleFilter = (param) => {
 </script>
 
 <template>
-  <BaseLayout>
+  <Container>
     <Heading
       text="Cardápio"
       size="lg"
@@ -63,11 +83,15 @@ const handleFilter = (param) => {
       class="my-5"
       placeholder="O que você esta procurando?"
     />
-  </BaseLayout>
+  </Container>
 
-  <CategoriesSlide @click-slide="handleFilter" />
+  <CategoriesSlide
+    v-if="categories && categories.length"
+    :categories="categories"
+    @click-slide="handleFilter"
+  />
   
-  <BaseLayout>
+  <Container>
     <ItemsSkeleton v-if="isLoading" />
 
     <div
@@ -80,5 +104,7 @@ const handleFilter = (param) => {
         :item="item"
       />
     </div>
-  </BaseLayout>
+
+    <Toast ref="toastRef" />
+  </Container>
 </template>
