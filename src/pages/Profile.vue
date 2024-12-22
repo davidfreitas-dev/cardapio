@@ -158,7 +158,7 @@ const { setStorage, getStorage } = useStorage();
 
       <div class="flex justify-between items-center">
         <Button :expand="true" @click="handleSave">
-          Salvar Dados
+          Confirmar Alterações
         </Button>
       </div>
     </div>

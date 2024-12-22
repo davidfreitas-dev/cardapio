@@ -70,17 +70,18 @@ const onSlideChange = () => {
   user-select: none;
   white-space: nowrap;
   font-size: .85rem;
+  font-weight: 600;
+  color: black;
   padding: 8px 16px;
-  border-radius: 30px;
-  border: 1px solid #eaeaea;
-  background-color: #ebf2ef;
+  border-radius: 12px;
+  background-color: #eee;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
 .swiper-slide.selected .slide {
-  color: white;
-  background-color: #307a59;
+  color: #fdbd10;
+  background-color: black;
   transform: scale(1.1);
   transition-duration: 300ms;
 }

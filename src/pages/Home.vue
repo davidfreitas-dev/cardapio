@@ -55,7 +55,7 @@ const { getStorage } = useStorage();
   <Heading
     text="Mais pedidos"
     size="sm"
-    class="pl-5"
+    class="pl-5 pt-3"
   />
   <ProductsSlide :products="favoriteProducts" slide-id="1" />
 

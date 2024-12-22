@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { HomeIcon, MagnifyingGlassIcon, RectangleStackIcon, ShoppingCartIcon, UserIcon  } from '@heroicons/vue/24/solid';
+import { Squares2X2Icon, MagnifyingGlassIcon, RectangleStackIcon, ShoppingBagIcon, UserIcon  } from '@heroicons/vue/24/solid';
 import { useCartStore } from '@/stores/cart';
 
 const route = useRoute();
@@ -38,16 +38,16 @@ watch(() => route.name, () => {
 </script>
 
 <template>
-  <nav class="fixed left-0 bottom-0 z-10 w-full h-[70px] bg-white shadow-lg rounded-t-2xl">
-    <ul class="flex justify-between items-center w-[85%] mx-auto mt-1 text-xs text-secondary py-2">
+  <nav class="fixed left-0 bottom-0 z-10 w-full h-[55px] bg-white shadow-lg rounded-t-2xl">
+    <ul class="flex justify-between items-center w-[85%] mt-1 mx-auto text-xs text-gray-300 py-2">
       <li
         v-for="(item, index) in menu"
         :key="index"
-        :class="{ 'text-primary': item.active }"
+        :class="{ 'text-font': item.active }"
         class="flex flex-col justify-center items-center cursor-pointer transition-colors"
         @click="router.push(item.link)"
       >
-        <HomeIcon
+        <Squares2X2Icon
           v-if="item.name === 'Início'"
           class="h-6 w-6"
         />
@@ -63,8 +63,8 @@ watch(() => route.name, () => {
         />
 
         <div v-if="item.name === 'Carrinho'" class="relative icon-container">
-          <ShoppingCartIcon class="h-6 w-6" />
-          <span v-if="cartStore.totalItems" class="absolute -top-1 -right-3 bg-accent text-primary rounded-full px-[6px] py-[1px] text-xs">
+          <ShoppingBagIcon class="h-6 w-6" />
+          <span v-if="cartStore.totalItems" class="absolute -top-1 -right-3 bg-primary bg-opacity-50 text-font font-semibold rounded-full px-[6px] py-[1px] text-xs animate-pulse">
             {{ cartStore.totalItems }}
           </span>
         </div>
@@ -73,9 +73,33 @@ watch(() => route.name, () => {
           v-if="item.name === 'Perfil'"
           class="h-6 w-6"
         />
-
-        {{ item.name }}
       </li>
     </ul>
   </nav>
 </template>
+
+<style scoped>
+/* Estilo para o badge com animação pulsante */
+.icon-container {
+  position: relative;
+}
+
+.icon-container span {
+  animation: pulse-animation 1.5s infinite; /* Definindo animação infinita */
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+</style>

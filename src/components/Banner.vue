@@ -1,24 +1,64 @@
+<template>
+  <swiper
+    :modules="modules"
+    :autoplay="autoplayConfig"
+    :pagination="{ clickable: true }"
+    @swiper="onSwiper"
+    @slide-change="onSlideChange"
+  >
+    <swiper-slide v-for="(banner, index) in banners" :key="index">
+      <div
+        class="w-full h-40 p-5 rounded-2xl"
+        :style="{
+          backgroundImage: `url(${banner})`,
+        }"
+      />
+    </swiper-slide>
+  </swiper>
+</template>
+
 <script setup>
+// Import Swiper Vue.js components and modules
+import { Autoplay, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
+const modules = [Autoplay, Pagination];
+
+const autoplayConfig = {
+  delay: 3000,
+  disableOnInteraction: false,
+};
+
+// Banners
+const banners = [
+  new URL('@/assets/img/banners/banner-1.png', import.meta.url).href,
+  new URL('@/assets/img/banners/banner-2.png', import.meta.url).href,
+  new URL('@/assets/img/banners/banner-3.png', import.meta.url).href,
+];
+
+const onSwiper = (swiper) => {
+  // console.log(swiper);
+};
+
+const onSlideChange = () => {
+  // console.log('slide change');
+};
 </script>
 
-<template>
-  <div class="flex w-full h-40 p-5 rounded-2xl my-5 bg-accent">
-    <div class="flex flex-col justify-evenly items-start w-3/5">
-      <div>
-        <h1 class="font-bold font-sans text-2xl text-font">
-          Pizza Grande
-        </h1>
+<style scoped>
+.swiper-pagination-bullet {
+  opacity: 0.6;
+  background-color: #ccc !important;
+  transition: opacity 0.3s, background-color 0.3s;
+}
 
-        <p class="font-medium font-sans text-sm text-font">
-          Desconto 25%
-        </p>
-      </div>
-      
-      <button class="text-sm font-bold h-10 px-5 bg-primary text-white tracking-wide rounded-lg transition-all duration-200 ease-in active:scale-95">
-        Comprar agora
-      </button>
-    </div>
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: #fdbd10 !important;
+}
+</style>
 
-    <div class="bg-[url('@/assets/img/banners/banner-1.png')] bg-cover bg-no-repeat bg-center w-2/5" />
-  </div>
-</template>

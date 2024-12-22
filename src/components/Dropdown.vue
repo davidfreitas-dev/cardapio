@@ -50,15 +50,15 @@ const { setStorage, getStorage } = useStorage();
   <div class="relative">
     <button
       @click="toggleDropdown"
-      class="flex justify-between items-center bg-accent text-primary w-28 px-4 py-2 rounded focus:outline-none"
+      class="flex justify-between items-center bg-primary text-font w-28 px-4 py-2 rounded focus:outline-none"
     >
       {{ selectedOption }}
-      <ChevronDownIcon class="h-4 w-4 text-primary" />
+      <ChevronDownIcon class="h-4 w-4 text-font" />
     </button>
     
     <ul
       v-if="isOpen"
-      class="absolute z-10 mt-2 w-28 py-1 bg-white text-primary border border-accent rounded shadow-lg"
+      class="absolute z-10 mt-2 w-28 py-1 bg-white text-font border border-accent rounded shadow-lg"
     >
       <li
         v-for="(option, index) in options"

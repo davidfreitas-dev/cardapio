@@ -147,7 +147,7 @@ const { getStorage } = useStorage();
   <BaseLayout>
     <div class="flex justify-between items-center">
       <Heading
-        text="Carrinho"
+        text="Sacola"
         color="primary"
         size="lg"
       />
@@ -156,7 +156,7 @@ const { getStorage } = useStorage();
     </div>
 
     <div v-if="!cartStore.totalItems" class="flex flex-col items-center text-center w-full h-screen p-8 mt-5">
-      <span class="font-semibold font-sans text-lg">
+      <span class="font-semibold text-lg">
         Você ainda não adicionou nenhum item
       </span>
     </div>
@@ -164,7 +164,7 @@ const { getStorage } = useStorage();
     <div v-else class="pb-20">
       <Address :delivery="deliveryType" />
   
-      <h2 class="font-semibold font-sans text-xl">
+      <h2 class="font-bold text-xl">
         Itens ({{ cartStore.totalItems }})
       </h2>
 
@@ -185,7 +185,7 @@ const { getStorage } = useStorage();
             size="lg"
           />
   
-          <strong>{{ $filters.currencyBRL(cartStore.totalItemsPrice) }}</strong>
+          <strong class="text-gray-500">{{ $filters.currencyBRL(cartStore.totalItemsPrice) }}</strong>
         </div>
 
         <div
@@ -198,7 +198,7 @@ const { getStorage } = useStorage();
             size="lg"
           />
   
-          <strong>{{ $filters.currencyBRL(deliveryPrice) }}</strong>
+          <strong class="text-gray-500">{{ $filters.currencyBRL(deliveryPrice) }}</strong>
         </div>
 
         <div class="flex justify-between items-center">
@@ -208,7 +208,7 @@ const { getStorage } = useStorage();
             size="lg"
           />
   
-          <strong class="text-primary text-lg">
+          <strong class="text-font text-lg">
             {{ $filters.currencyBRL(totalPrice) }}
           </strong>
         </div>

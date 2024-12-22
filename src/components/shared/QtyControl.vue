@@ -33,7 +33,7 @@ const increment = () => {
 <template>
   <div class="flex items-center">
     <button
-      class="flex items-center justify-center bg-primary disabled:bg-gray-200 disabled:text-secondary text-white transition-colors rounded-lg h-7 w-7 disabled:cursor-not-allowed"
+      class="flex items-center justify-center bg-primary disabled:bg-gray-200 disabled:text-secondary text-font transition-colors rounded-lg h-7 w-7 disabled:cursor-not-allowed"
       :disabled="isDisabled"
       @click="decrement"
     >
@@ -48,7 +48,7 @@ const increment = () => {
     >
 
     <button
-      class="flex items-center justify-center bg-primary text-white rounded-lg h-7 w-7"
+      class="flex items-center justify-center bg-primary text-font rounded-lg h-7 w-7"
       @click="increment"
     >
       <PlusIcon class="h-4 w-4" />

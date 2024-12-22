@@ -26,7 +26,7 @@ const props = defineProps({
       'text-secondary': color === 'secondary',
       'text-light': color === 'light',
     }"
-    class="font-medium font-sans"
+    class="font-medium"
   >
     {{ text }}
   </span>

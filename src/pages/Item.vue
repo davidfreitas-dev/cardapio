@@ -64,7 +64,7 @@ const { getStorage } = useStorage();
     
   <BaseLayout>
     <div class="flex flex-col gap-2 mt-64 overflow-y-auto pb-[100px]">
-      <h1 class="font-bold font-sans text-2xl text-font">
+      <h1 class="font-bold text-2xl text-font">
         {{ item.name }}
       </h1>
 
@@ -75,16 +75,16 @@ const { getStorage } = useStorage();
       />
 
       <div class="flex justify-between items-center gap-5">
-        <strong class="font-bold text-xl text-primary">
+        <strong class="font-bold text-2xl text-font">
           {{ $filters.currencyBRL(item.price) }}
         </strong>
       
         <QtyControl v-model="item.quantity" />
       </div>
 
-      <span class="border-b border-accent my-3" />
+      <span class="border-b border-gray-100 my-3" />
 
-      <h1 class="font-bold font-sans text-lg text-font">
+      <h1 class="font-bold  text-lg text-font">
         Adicionais
       </h1>
 
@@ -92,7 +92,7 @@ const { getStorage } = useStorage();
         <span
           v-for="(additional, index) in item.additional"
           :key="index"
-          class="flex justify-between items-center border-x first:border-t border-b border-accent first:rounded-t-xl last:rounded-b-xl w-full p-3.5"
+          class="flex justify-between items-center border-x first:border-t border-b border-gray-100 first:rounded-t-xl last:rounded-b-xl w-full p-3.5"
         >
           <Checkbox
             v-model="additional.selected"
@@ -113,13 +113,13 @@ const { getStorage } = useStorage();
             text="Total"
             color="secondary"
           />
-          <strong class="text-xl text-primary">
+          <strong class="text-2xl text-font">
             {{ $filters.currencyBRL(totalItemPrice) }}
           </strong>
         </div>
 
         <Button :expand="true" @click="addToCart">
-          Adicionar
+          Adicionar na Sacola
         </Button>
       </div>
     </div>
