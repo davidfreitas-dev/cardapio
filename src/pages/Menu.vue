@@ -10,6 +10,7 @@ import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
 import Pagination from '@/components/shared/Pagination.vue';
 import Toast from '@/components/shared/Toast.vue';
 
+const page = ref(1);
 const toastRef = ref(null);
 const isLoading = ref(true);
 const categories = ref(null);
@@ -33,20 +34,25 @@ const data = ref(null);
 const getProducts = async (categoryId = 0) => {
   isLoading.value = true;
 
+  const params = new URLSearchParams();
+
+  params.append('page', page.value);
+
   try {
-    const response = await axios.get(`/products/category/${categoryId}`);
+    const response = await axios.get(`/categories/${categoryId}/products?${params.toString()}`);
     data.value = response.data;
     data.value.backup = data.value.products;
   } catch (error) {
     console.log(error);
-    toastRef.value?.showToast('error', 'Falha ao carregar categorias.');
+    toastRef.value?.showToast('error', 'Falha ao carregar produtos.');
   }
 
   isLoading.value = false;
 };
 
-const changePage = () => {
-  // TODO
+const changePage = (currentPage) => {
+  page.value = currentPage;
+  getProducts();
 };
 
 const loadData = async () => {
