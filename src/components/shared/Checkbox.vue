@@ -44,7 +44,7 @@ const model = computed({
 
 .container input:checked ~ .checkmark {
   border: none;
-  background-color: #307a59;
+  background-color: #fdbd10;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;

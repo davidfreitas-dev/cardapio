@@ -46,7 +46,7 @@ const getProducts = async (categoryId = 0) => {
 };
 
 const changePage = () => {
-  
+  // TODO
 };
 
 const loadData = async () => {
@@ -118,8 +118,8 @@ const handleFilter = async (categoryId) => {
 
     <Pagination
       ref="paginationRef"
-      :total-pages="10"
-      :total-items="100"
+      :total-pages="data?.pages"
+      :total-items="data?.total"
       @on-page-change="changePage"
     />
 
