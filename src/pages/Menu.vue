@@ -13,14 +13,15 @@ import Toast from '@/components/shared/Toast.vue';
 const page = ref(1);
 const toastRef = ref(null);
 const isLoading = ref(true);
-const categories = ref(null);
+const categoriesData = ref(null);
+const productsData = ref(null);
 
 const getCategories = async () => {
   isLoading.value = true;
 
   try {
     const response = await axios.get('/categories');
-    categories.value = response.data;
+    categoriesData.value = response.data;
   } catch (error) {
     console.log(error);
     toastRef.value?.showToast('error', 'Falha ao carregar categorias.');
@@ -28,8 +29,6 @@ const getCategories = async () => {
 
   isLoading.value = false;
 };
-
-const data = ref(null);
 
 const getProducts = async (categoryId = 0) => {
   isLoading.value = true;
@@ -40,8 +39,8 @@ const getProducts = async (categoryId = 0) => {
 
   try {
     const response = await axios.get(`/categories/${categoryId}/products?${params.toString()}`);
-    data.value = response.data;
-    data.value.backup = data.value.products;
+    productsData.value = response.data;
+    productsData.value.backup = productsData.value.products;
   } catch (error) {
     console.log(error);
     toastRef.value?.showToast('error', 'Falha ao carregar produtos.');
@@ -74,11 +73,11 @@ watch(search, (newSearch) => {
 
 const handleSearch = () => {
   if (!search.value) {
-    data.value.products.value = [...data.value.backup];
+    productsData.value.products.value = [...productsData.value.backup];
     return;
   }
 
-  data.value.products.value = data.value.backup.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
+  productsData.value.products.value = productsData.value.backup.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
 };
 
 const handleFilter = async (categoryId) => {
@@ -103,8 +102,8 @@ const handleFilter = async (categoryId) => {
   </Container>
 
   <CategoriesSlide
-    v-if="categories && categories.length"
-    :categories="categories"
+    v-if="categoriesData?.categories && categoriesData?.categories.length"
+    :categories="categoriesData.categories"
     @click-slide="handleFilter"
   />
   
@@ -112,11 +111,11 @@ const handleFilter = async (categoryId) => {
     <ItemsSkeleton v-if="isLoading" />
 
     <div
-      v-if="!isLoading && (data.products && data.products.length)"
+      v-if="!isLoading && (productsData?.products && productsData?.products.length)"
       class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-3"
     >
       <ProductCard
-        v-for="(product, index) in data.products"
+        v-for="(product, index) in productsData.products"
         :key="index"
         :product="product"
       />
@@ -124,8 +123,8 @@ const handleFilter = async (categoryId) => {
 
     <Pagination
       ref="paginationRef"
-      :total-pages="data?.pages"
-      :total-items="data?.total"
+      :total-pages="productsData?.pages"
+      :total-items="productsData?.total"
       @on-page-change="changePage"
     />
 
