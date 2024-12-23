@@ -28,7 +28,7 @@ const totalPrice = computed(() => {
 });
 
 const removeItem = (item) => {
-  const index = cartStore.cart.products.findIndex((product) => product.id === item.id);
+  const index = cartStore.cart.products.findIndex((product) => product.idproduct === item.idproduct);
 
   if (index >= 0) {
     cartStore.removeFromCart(index);

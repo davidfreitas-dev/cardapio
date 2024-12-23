@@ -35,9 +35,11 @@ const handleAddToCart = () => {
     cartProducts[index].quantity += product.value.quantity;
     cartProducts[index].additional = product.value.additional;
     return;
-  } 
+  } else {
+    cartStore.addToCart(product);
+  }  
 
-  cartStore.addToCart(product);
+  router.push('/cart');
 };
 
 const { setStorage } = useStorage();

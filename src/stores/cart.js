@@ -21,13 +21,20 @@ export const useCartStore = defineStore('cart', () => {
 
   const totalItemsPrice = computed(() => {
     cart.value.totalPrice = cart.value.products
-      .map(item => item.quantity * (item.price + item.additional
-        .map(add => (add.selected ? add.price : 0) * 1)
-        .reduce((total, current) => total + current, 0)))
+      .map(item => {
+        const additionalPrice = Array.isArray(item.additional)
+          ? item.additional
+            .map(add => (add.selected ? add.price : 0))
+            .reduce((total, current) => total + current, 0)
+          : 0;
+  
+        return item.quantity * (item.price + additionalPrice);
+      })
       .reduce((total, current) => total + current, 0);
-
+  
     return cart.value.totalPrice;
   });
+  
 
   const totalItems = computed(() => {
     cart.value.totalItems = cart.value.products.length;

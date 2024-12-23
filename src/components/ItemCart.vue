@@ -15,29 +15,26 @@ const props = defineProps({
   }
 });
 
+const additionalSelected = computed(() => {
+  return Array.isArray(props.item.additional) 
+    ? props.item.additional.filter((add) => add.selected) 
+    : [];
+});
+
 const totalItemPrice = computed(() => {
   const totalItem = props.item.price || 0;
   const totalAdditional = additionalSelected.value
-    .map(add => add.price * 1)
+    .map(add => add.price || 0)
     .reduce((total, current) => total + current, 0);
 
   return totalItem + totalAdditional;
-});
-
-const additionalSelected = computed(() => {
-  return props.item.additional.filter((add) => add.selected);
 });
 
 const router = useRouter();
 
 const handleSelectItem = () => {
   setStorage('product', props.item);
-
   router.push('/item');
-};
-
-const getImageUrl = (item) => {
-  return new URL(`../assets/img/products/${item.id}.png`, import.meta.url).href;
 };
 
 const { setStorage } = useStorage();
@@ -46,7 +43,7 @@ const { setStorage } = useStorage();
 <template>
   <div class="flex justify-start items-start gap-3 border-b border-gray-100 py-5">
     <img
-      :src="getImageUrl(item)"
+      :src="item.image"
       alt="Imagem de comida"
       class="h-20 w-20 rounded-xl shadow-md mr-1 cursor-pointer"
       @click="handleSelectItem()"
