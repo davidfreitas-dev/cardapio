@@ -1,3 +1,32 @@
+<template>
+  <div class="relative">
+    <button
+      class="flex justify-between items-center bg-primary text-font w-28 px-4 py-2 rounded-lg focus:outline-none"
+      @click="toggleDropdown"
+    >
+      {{ selectedOption }}
+      <ChevronDownIcon
+        class="h-4 w-4 text-font transform transition-transform duration-300"
+        :class="{ 'rotate-180': isOpen, 'rotate-0': !isOpen }"
+      />
+    </button>
+    
+    <ul
+      v-if="isOpen"
+      class="absolute z-10 mt-2 w-28 py-1 bg-white text-font border border-gray-100 rounded-xl shadow-lg"
+    >
+      <li
+        v-for="(option, index) in options"
+        :key="index"
+        @click="selectOption(option)"
+        class="px-4 py-2 cursor-pointer"
+      >
+        {{ option }}
+      </li>
+    </ul>
+  </div>
+</template>
+
 <script setup>
 import { ref, watch } from 'vue';
 import { ChevronDownIcon } from '@heroicons/vue/24/solid';
@@ -45,29 +74,3 @@ const updateValue = () => {
 
 const { setStorage, getStorage } = useStorage();
 </script>
-
-<template>
-  <div class="relative">
-    <button
-      @click="toggleDropdown"
-      class="flex justify-between items-center bg-primary text-font w-28 px-4 py-2 rounded focus:outline-none"
-    >
-      {{ selectedOption }}
-      <ChevronDownIcon class="h-4 w-4 text-font" />
-    </button>
-    
-    <ul
-      v-if="isOpen"
-      class="absolute z-10 mt-2 w-28 py-1 bg-white text-font border border-accent rounded shadow-lg"
-    >
-      <li
-        v-for="(option, index) in options"
-        :key="index"
-        @click="selectOption(option)"
-        class="px-4 py-2 cursor-pointer"
-      >
-        {{ option }}
-      </li>
-    </ul>
-  </div>
-</template>

@@ -7,13 +7,12 @@ import Input from '@/components/shared/Input.vue';
 import CategoriesSlide from '@/components/CategoriesSlide.vue';
 import ProductCard from '@/components/ProductCard.vue';
 import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
+import Pagination from '@/components/shared/Pagination.vue';
 import Toast from '@/components/shared/Toast.vue';
 
 const toastRef = ref(null);
 const isLoading = ref(true);
 const categories = ref(null);
-const products = ref(null);
-const backupProducts = ref(null);
 
 const getCategories = async () => {
   isLoading.value = true;
@@ -29,19 +28,25 @@ const getCategories = async () => {
   isLoading.value = false;
 };
 
+const data = ref(null);
+
 const getProducts = async (categoryId = 0) => {
   isLoading.value = true;
 
   try {
     const response = await axios.get(`/products/category/${categoryId}`);
-    backupProducts.value = response.data.products;
-    products.value = response.data.products;
+    data.value = response.data;
+    data.value.backup = data.value.products;
   } catch (error) {
     console.log(error);
     toastRef.value?.showToast('error', 'Falha ao carregar categorias.');
   }
 
   isLoading.value = false;
+};
+
+const changePage = () => {
+  
 };
 
 const loadData = async () => {
@@ -63,17 +68,16 @@ watch(search, (newSearch) => {
 
 const handleSearch = () => {
   if (!search.value) {
-    products.value = [...backupProducts.value];
+    data.value.products.value = [...data.value.backup];
     return;
   }
 
-  products.value = backupProducts.value.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
+  data.value.products.value = data.value.backup.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
 };
 
 const handleFilter = async (categoryId) => {
   await getProducts(categoryId);
 };
-
 </script>
 
 <template>
@@ -102,15 +106,22 @@ const handleFilter = async (categoryId) => {
     <ItemsSkeleton v-if="isLoading" />
 
     <div
-      v-if="!isLoading && (products && products.length)"
-      class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-20"
+      v-if="!isLoading && (data.products && data.products.length)"
+      class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-3"
     >
       <ProductCard
-        v-for="(product, index) in products"
+        v-for="(product, index) in data.products"
         :key="index"
         :product="product"
       />
     </div>
+
+    <Pagination
+      ref="paginationRef"
+      :total-pages="10"
+      :total-items="100"
+      @on-page-change="changePage"
+    />
 
     <Toast ref="toastRef" />
   </Container>
