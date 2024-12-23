@@ -11,6 +11,7 @@ import Pagination from '@/components/shared/Pagination.vue';
 import Toast from '@/components/shared/Toast.vue';
 
 const page = ref(1);
+const search = ref('');
 const toastRef = ref(null);
 const isLoading = ref(true);
 const selectedCategoryId = ref(0);
@@ -31,19 +32,20 @@ const getCategories = async () => {
   isLoading.value = false;
 };
 
-const getProducts = async (categoryId = selectedCategoryId.value) => {
+const getProducts = async (categoryId = selectedCategoryId.value, searchQuery = search.value) => {
   isLoading.value = true;
 
   const params = new URLSearchParams();
+
+  if (searchQuery) {
+    params.append('search', searchQuery);
+  }
 
   params.append('page', page.value);
 
   try {
     const response = await axios.get(`/categories/${categoryId}/products?${params.toString()}`);
-    productsData.value = {
-      ...response.data,
-      backup: response.data.products,
-    };
+    productsData.value = response.data;
   } catch (error) {
     console.log(error);
     toastRef.value?.showToast('error', 'Falha ao carregar produtos.');
@@ -66,8 +68,6 @@ onMounted(async () => {
   await loadData();
 });
 
-const search = ref('');
-
 watch(search, (newSearch) => {
   if (!newSearch) {
     handleSearch();
@@ -75,21 +75,13 @@ watch(search, (newSearch) => {
 });
 
 const handleSearch = () => {
-  const query = search.value.trim().toLowerCase();
-
-  if (!query) {
-    productsData.value.products = [...productsData.value.backup];
-    return;
-  }
-
-  productsData.value.products = productsData.value.backup.filter(product =>
-    product.name.toLowerCase().includes(query)
-  );
+  getProducts(selectedCategoryId.value, search.value);
 };
 
 const handleFilter = (categoryId) => {
   page.value = 1;
   selectedCategoryId.value = categoryId;
+  search.value = '';
   getProducts(categoryId);
 };
 </script>
@@ -103,10 +95,10 @@ const handleFilter = (categoryId) => {
 
     <Input
       v-model="search"
-      v-debounce:500ms="handleSearch"
+      v-debounce:500ms="handleSearch" 
       type="search"
       class="my-5"
-      placeholder="O que você esta procurando?"
+      placeholder="O que você está procurando?"
     />
   </Container>
 
