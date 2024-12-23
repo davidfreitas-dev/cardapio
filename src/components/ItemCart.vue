@@ -1,12 +1,10 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { XMarkIcon } from '@heroicons/vue/24/solid';
 import { useStorage } from '@/use/useStorage';
 import Text from '@/components/shared/Text.vue';
 import QtyControl from '@/components/shared/QtyControl.vue';
-
-const emit = defineEmits(['onRemoveItem']);
 
 const props = defineProps({
   item: {
@@ -15,14 +13,17 @@ const props = defineProps({
   }
 });
 
+const item = ref({ ...props.item });
+
 const additionalSelected = computed(() => {
-  return Array.isArray(props.item.additional) 
-    ? props.item.additional.filter((add) => add.selected) 
+  return Array.isArray(item.value.additional) 
+    ? item.value.additional.filter((add) => add.selected) 
     : [];
 });
 
 const totalItemPrice = computed(() => {
-  const totalItem = props.item.price || 0;
+  const totalItem = item.value.price ?? 0;
+
   const totalAdditional = additionalSelected.value
     .map(add => add.price || 0)
     .reduce((total, current) => total + current, 0);
@@ -33,8 +34,14 @@ const totalItemPrice = computed(() => {
 const router = useRouter();
 
 const handleSelectItem = () => {
-  setStorage('product', props.item);
+  setStorage('product', item.value);
   router.push('/item');
+};
+
+const emit = defineEmits(['onRemoveItem']);
+
+const removeFromCart = (item) => {
+  emit('onRemoveItem', item);
 };
 
 const { setStorage } = useStorage();
@@ -46,7 +53,7 @@ const { setStorage } = useStorage();
       :src="item.image"
       alt="Imagem de comida"
       class="h-20 w-20 rounded-xl shadow-md mr-1 cursor-pointer"
-      @click="handleSelectItem()"
+      @click="handleSelectItem"
     >
 
     <div class="flex flex-col justify-between min-h-[80px] w-full">
@@ -57,7 +64,7 @@ const { setStorage } = useStorage();
 
         <span
           class="w-5 ml-3"
-          @click="emit('onRemoveItem', item)"
+          @click="removeFromCart(item)"
         >
           <XMarkIcon class="h-5 w-5" />
         </span>

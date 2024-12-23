@@ -36,7 +36,7 @@ const handleAddToCart = () => {
     cartProducts[index].additional = product.value.additional;
     return;
   } else {
-    cartStore.addToCart(product);
+    cartStore.addToCart(product.value);
   }  
 
   router.push('/cart');
