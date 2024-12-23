@@ -13,6 +13,7 @@ import Toast from '@/components/shared/Toast.vue';
 const page = ref(1);
 const toastRef = ref(null);
 const isLoading = ref(true);
+const selectedCategoryId = ref(0);
 const categoriesData = ref(null);
 const productsData = ref(null);
 
@@ -30,7 +31,7 @@ const getCategories = async () => {
   isLoading.value = false;
 };
 
-const getProducts = async (categoryId = 0) => {
+const getProducts = async (categoryId = selectedCategoryId.value) => {
   isLoading.value = true;
 
   const params = new URLSearchParams();
@@ -39,8 +40,10 @@ const getProducts = async (categoryId = 0) => {
 
   try {
     const response = await axios.get(`/categories/${categoryId}/products?${params.toString()}`);
-    productsData.value = response.data;
-    productsData.value.backup = productsData.value.products;
+    productsData.value = {
+      ...response.data,
+      backup: response.data.products,
+    };
   } catch (error) {
     console.log(error);
     toastRef.value?.showToast('error', 'Falha ao carregar produtos.');
@@ -72,16 +75,22 @@ watch(search, (newSearch) => {
 });
 
 const handleSearch = () => {
-  if (!search.value) {
-    productsData.value.products.value = [...productsData.value.backup];
+  const query = search.value.trim().toLowerCase();
+
+  if (!query) {
+    productsData.value.products = [...productsData.value.backup];
     return;
   }
 
-  productsData.value.products.value = productsData.value.backup.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
+  productsData.value.products = productsData.value.backup.filter(product =>
+    product.name.toLowerCase().includes(query)
+  );
 };
 
-const handleFilter = async (categoryId) => {
-  await getProducts(categoryId);
+const handleFilter = (categoryId) => {
+  page.value = 1;
+  selectedCategoryId.value = categoryId;
+  getProducts(categoryId);
 };
 </script>
 
@@ -115,8 +124,8 @@ const handleFilter = async (categoryId) => {
       class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-3"
     >
       <ProductCard
-        v-for="(product, index) in productsData.products"
-        :key="index"
+        v-for="(product) in productsData.products"
+        :key="product.id"
         :product="product"
       />
     </div>
