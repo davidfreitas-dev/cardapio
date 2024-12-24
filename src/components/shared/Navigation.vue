@@ -38,7 +38,7 @@ watch(() => route.name, () => {
 </script>
 
 <template>
-  <nav class="fixed left-0 bottom-0 z-10 w-full h-[55px] bg-white shadow-lg rounded-t-2xl">
+  <nav class="fixed left-0 bottom-0 z-10 w-full h-[55px] bg-white box-shadow rounded-t-2xl">
     <ul class="flex justify-between items-center w-[85%] mt-1 mx-auto text-xs text-gray-300 py-2">
       <li
         v-for="(item, index) in menu"

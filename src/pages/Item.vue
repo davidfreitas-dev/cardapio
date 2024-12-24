@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import Text from '@/components/shared/Text.vue';
+import BackButton from '@/components/shared/BackButton.vue';
 import Container from '@/components/shared/Container.vue';
 import Button from '@/components/shared/Button.vue';
 import QtyControl from '@/components/shared/QtyControl.vue';
@@ -54,12 +55,14 @@ const { getStorage } = useStorage();
 
 <template>
   <div
-    class="absolute top-0 left-0 w-full h-60 bg-cover bg-no-repeat bg-center"
+    class="absolute top-0 left-0 w-full h-[300px] bg-cover bg-no-repeat bg-center"
     :style="`background-image: url('${item.image}');`"
-  />
-    
+  >
+    <BackButton class="absolute top-4 left-4 z-20" />
+  </div>
+
   <Container>
-    <div class="flex flex-col gap-2 mt-64 overflow-y-auto pb-[100px]">
+    <div class="flex flex-col gap-2 mt-[300px] overflow-y-auto pt-3 pb-[100px]">
       <h1 class="font-bold text-2xl text-font">
         {{ item.name }}
       </h1>
