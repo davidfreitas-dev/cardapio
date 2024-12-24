@@ -4,14 +4,30 @@ import { useRouter } from 'vue-router';
 import { useCartStore } from '@/stores/cart';
 import { useStorage } from '@/use/useStorage';
 import Text from '@/components/shared/Text.vue';
+import Heading from '@/components/shared/Heading.vue';
 import BaseLayout from '@/components/shared/BaseLayout.vue';
+import BackButton from '@/components/shared/BackButton.vue';
 import Button from '@/components/shared/Button.vue';
 import QtyControl from '@/components/shared/QtyControl.vue';
 import Checkbox from '@/components/shared/Checkbox.vue';
+import ProductsSlide from '@/components/ProductsSlide.vue';
 
 const router = useRouter();
 const cartStore = useCartStore();
 const item = ref({});
+
+const suggestedProducts = computed(() => {
+  const products = getStorage('products') || [];
+
+  const selectedProducts = [];
+
+  while (selectedProducts.length < 5 && products.length > 0) {
+    const ramdonIndex = Math.floor(Math.random() * products.length);
+    selectedProducts.push(products.splice(ramdonIndex, 1)[0]);
+  }
+
+  return selectedProducts;
+});
 
 onMounted(() => {
   item.value = getStorage('product');
@@ -58,12 +74,14 @@ const { getStorage } = useStorage();
 
 <template>
   <div
-    class="absolute top-0 left-0 w-full h-60 bg-cover bg-no-repeat bg-center"
+    class="absolute top-0 left-0 w-full h-[300px] bg-cover bg-no-repeat bg-center"
     :style="`background-image: url('${getImageUrl(item)}');`"
-  />
+  >
+    <BackButton class="absolute top-4 left-4 z-20" />
+  </div>
     
   <BaseLayout>
-    <div class="flex flex-col gap-2 mt-64 overflow-y-auto pb-[100px]">
+    <div class="flex flex-col gap-2 overflow-y-auto mt-[300px] pt-3">
       <h1 class="font-bold text-2xl text-font">
         {{ item.name }}
       </h1>
@@ -105,7 +123,19 @@ const { getStorage } = useStorage();
         </span>
       </div>
     </div>
+  </BaseLayout>
 
+  <div v-if="suggestedProducts && suggestedProducts.length" class="mb-20">
+    <Heading
+      text="Sugestões"
+      size="sm"
+      class="pl-5"
+    />
+
+    <ProductsSlide :products="suggestedProducts" />
+  </div>
+    
+  <BaseLayout>
     <div class="box-shadow fixed left-0 bottom-0 z-20 w-full h-[80px] bg-white pb-20">
       <div class="flex w-11/12 mx-auto py-2.5">
         <div class="flex flex-col w-[60%]">
