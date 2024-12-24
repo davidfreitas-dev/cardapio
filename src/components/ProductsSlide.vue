@@ -7,7 +7,7 @@
   >
     <template v-for="(product, index) in products" :key="index">
       <swiper-slide>
-        <ProductCard :item="product" />
+        <ProductCard :product="product" />
       </swiper-slide>
     </template>
   </swiper>
