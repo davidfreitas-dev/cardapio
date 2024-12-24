@@ -1,11 +1,14 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useProductsStore } from '@/stores/products';
 import { useStorage } from '@/use/useStorage';
+import BaseLayout from '@/components/shared/BaseLayout.vue';
 import Heading from '@/components/shared/Heading.vue';
 import Banner from '@/components/Banner.vue';
-import ProductsSlide from '@/components/ProductsSlide.vue';
-import BaseLayout from '@/components/shared/BaseLayout.vue';
+import Input from '@/components/shared/Input.vue';
+import CategoriesSlide from '@/components/CategoriesSlide.vue';
+import ProductCard from '@/components/ProductCard.vue';
+import ItemsSkeleton from '@/components/ItemsSkeleton.vue';
 
 const productsStore = useProductsStore();
 const isLoading = ref(true);
@@ -17,54 +20,66 @@ onMounted(async () => {
   isLoading.value = false;
 });
 
-const favoriteProducts = computed(() => {
-  const products = getStorage('products') || [];
+const search = ref('');
 
-  const selectedProducts = [];
-
-  while (selectedProducts.length < 5 && products.length > 0) {
-    const ramdonIndex = Math.floor(Math.random() * products.length);
-    selectedProducts.push(products.splice(ramdonIndex, 1)[0]);
+watch(search, (newSearch) => {
+  if (!newSearch) {
+    handleSearch();
   }
-
-  return selectedProducts;
 });
 
-const promoProducts = computed(() => {
-  const products = getStorage('products') || [];
+const handleSearch = () => {
+  const backupProducts = productsStore.products;
 
-  const selectedProducts = [];
-
-  while (selectedProducts.length < 5 && products.length > 0) {
-    const ramdonIndex = Math.floor(Math.random() * products.length);
-    selectedProducts.push(products.splice(ramdonIndex, 1)[0]);
+  if (!search.value) {
+    products.value = backupProducts;
+    return;
   }
 
-  return selectedProducts;
-});
+  products.value = backupProducts.filter((product => product.name.match(new RegExp(search.value, 'gi'))));
+};
 
-const { getStorage } = useStorage();
+const handleFilter = (param) => {  
+  const backupProducts = productsStore.products;
+
+  if (param === 0) {
+    products.value = backupProducts;
+    return;
+  }
+
+  products.value = backupProducts.filter((product => product.idcategory === param));
+};
 </script>
 
 <template>
   <BaseLayout>
     <Heading text="Bem-vindo 👋" />
+
     <Banner />
+
+    <Input
+      v-model="search"
+      v-debounce:500ms="handleSearch"
+      type="search"
+      class="my-5"
+      placeholder="O que você esta procurando?"
+    />
   </BaseLayout>
 
-  <Heading
-    text="Mais pedidos"
-    size="sm"
-    class="pl-5 pt-3"
-  />
-  <ProductsSlide :products="favoriteProducts" slide-id="1" />
+  <CategoriesSlide @click-slide="handleFilter" />
 
-  <Heading
-    text="Promoções"
-    size="sm"
-    class="pl-5"
-  />
-  <ProductsSlide :products="promoProducts" slide-id="2" />
+  <BaseLayout>
+    <ItemsSkeleton v-if="isLoading" />
 
-  <div class="pb-20" />
+    <div
+      v-if="!isLoading && products.length"
+      class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-20"
+    >
+      <ProductCard
+        v-for="(item, index) in products"
+        :key="index"
+        :item="item"
+      />
+    </div>
+  </BaseLayout>
 </template>
