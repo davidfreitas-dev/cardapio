@@ -9,9 +9,7 @@
     <swiper-slide v-for="(banner, index) in banners" :key="index">
       <div
         class="w-full h-40 p-5 rounded-2xl"
-        :style="{
-          backgroundImage: `url(${banner})`,
-        }"
+        :style="{ backgroundImage: `url(${banner.image})`, }"
       />
     </swiper-slide>
   </swiper>
@@ -33,12 +31,13 @@ const autoplayConfig = {
   disableOnInteraction: false,
 };
 
-// Banners
-const banners = [
-  new URL('@/assets/img/banners/banner-1.png', import.meta.url).href,
-  new URL('@/assets/img/banners/banner-2.png', import.meta.url).href,
-  new URL('@/assets/img/banners/banner-3.png', import.meta.url).href,
-];
+const props = defineProps({
+  banners: {
+    type: Array,
+    default: () => ([]),
+    require: true
+  }
+});
 
 const onSwiper = (swiper) => {
   // console.log(swiper);

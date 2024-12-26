@@ -18,6 +18,7 @@ const isLoading = ref(true);
 const selectedCategoryId = ref(0);
 const categoriesData = ref(null);
 const productsData = ref(null);
+const banners = ref(null);
 
 const getCategories = async () => {
   isLoading.value = true;
@@ -55,12 +56,22 @@ const getProducts = async (categoryId = selectedCategoryId.value, searchQuery = 
   isLoading.value = false;
 };
 
-const changePage = (currentPage) => {
-  page.value = currentPage;
-  getProducts();
+const getBanners = async () => {
+  isLoading.value = true;
+
+  try {
+    const response = await axios.get('/banners');
+    banners.value = response.data;
+  } catch (error) {
+    console.log(error);
+    toastRef.value?.showToast('error', 'Falha ao carregar banners.');
+  }
+
+  isLoading.value = false;
 };
 
 const loadData = async () => {
+  getBanners();
   getCategories();
   getProducts();
 };
@@ -68,6 +79,11 @@ const loadData = async () => {
 onMounted(async () => {
   await loadData();
 });
+
+const changePage = (currentPage) => {
+  page.value = currentPage;
+  getProducts();
+};
 
 watch(search, (newSearch) => {
   if (!newSearch) {
@@ -91,7 +107,7 @@ const handleFilter = (categoryId) => {
   <Container>
     <Heading text="Bem-vindo 👋" />
 
-    <Banner />
+    <Banner v-if="banners && banners.length" :banners="banners" />
 
     <Input
       v-model="search"
