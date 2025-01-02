@@ -8,10 +8,8 @@
   >
     <swiper-slide v-for="(banner, index) in banners" :key="index">
       <div
-        class="w-full h-40 p-5 rounded-2xl"
-        :style="{
-          backgroundImage: `url(${banner})`,
-        }"
+        class="w-full aspect-w-16 aspect-h-9 rounded-2xl bg-no-repeat bg-cover bg-center"
+        :style="{ backgroundImage: `url(${banner})` }"
       />
     </swiper-slide>
   </swiper>

@@ -73,7 +73,7 @@ const handleFilter = (param) => {
 
     <div
       v-if="!isLoading && products.length"
-      class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-20"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 my-5 mx-[1px] pb-20"
     >
       <ProductCard
         v-for="(item, index) in products"
