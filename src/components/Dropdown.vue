@@ -50,7 +50,7 @@ const { setStorage, getStorage } = useStorage();
   <div class="relative">
     <button
       @click="toggleDropdown"
-      class="flex justify-between items-center bg-primary text-font w-28 px-4 py-2 rounded focus:outline-none"
+      class="flex justify-between items-center bg-primary text-font w-28 px-4 py-2 rounded-lg focus:outline-none"
     >
       {{ selectedOption }}
       <ChevronDownIcon class="h-4 w-4 text-font" />

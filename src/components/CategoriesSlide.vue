@@ -88,6 +88,6 @@ const onSlideChange = () => {
 
 /* Garantir o padding do contêiner */
 .swiper {
-  padding: 0 1.25rem;
+  padding: 0 6%;
 }
 </style>
