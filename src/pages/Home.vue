@@ -129,7 +129,7 @@ const handleFilter = (categoryId) => {
 
     <div
       v-if="!isLoading && (productsData?.products && productsData?.products.length)"
-      class="grid grid-cols-2 gap-4 my-5 mx-[1px] pb-3"
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 my-5 mx-[1px] pb-3"
     >
       <ProductCard
         v-for="(product) in productsData.products"
